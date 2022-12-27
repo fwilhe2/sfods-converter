@@ -1,0 +1,53 @@
+<spreadsheet>
+    <table name="Expenses">
+        <row>
+            <cell type="string">
+                <text><![CDATA[Date]]></text>
+            </cell>
+            <cell type="string">
+                <text><![CDATA[Expense]]></text>
+            </cell>
+            <cell type="string">
+                <text><![CDATA[Amount]]></text>
+            </cell>
+            <cell type="string">
+                <text><![CDATA[% of Budget]]></text>
+            </cell>
+        </row>
+        <row>
+            <cell value="2022-02-02" type="date" />
+            <cell type="string">
+                <text><![CDATA[Train Ride to Berlin]]></text>
+            </cell>
+            <cell value="97" type="currency" currency="EUR" />
+            <cell formula="of:=AMOUNT/YEARLY_BUDGET" type="percentage" />
+        </row>
+        <row>
+            <cell value="2022-03-12" type="date" />
+            <cell type="string">
+                <text><![CDATA[Train Ride to Cologne]]></text>
+            </cell>
+            <cell value="87" type="currency" currency="EUR" />
+            <cell formula="of:=AMOUNT/YEARLY_BUDGET" type="percentage" />
+        </row>
+        <row>
+            <cell value="2022-04-01" type="date" />
+            <cell type="string">
+                <text><![CDATA[Taxi Ride]]></text>
+            </cell>
+            <cell value="12" type="currency" currency="EUR" />
+            <cell formula="of:=AMOUNT/YEARLY_BUDGET" type="percentage" />
+        </row>
+    </table>
+    <table name="Values">
+        <row>
+            <cell value="200" type="currency" currency="EUR" />
+        </row>
+    </table>
+    <named-expressions>
+        <named-range name="AMOUNT" base-cell-address="$Expenses.$C$2"
+            cell-range-address="$Expenses.$C$2:.$C$4" />
+        <named-range name="YEARLY_BUDGET" base-cell-address="$Values.$A$1"
+            cell-range-address="$Values.$A$1" />
+    </named-expressions>
+</spreadsheet>
