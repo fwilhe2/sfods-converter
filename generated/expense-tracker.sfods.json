@@ -1,0 +1,167 @@
+{
+  "tables": [
+    {
+      "name": "Expenses",
+      "rows": [
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Date",
+              "R": 1,
+              "C": 1
+            },
+            {
+              "type": "string",
+              "text": "Expense",
+              "R": 1,
+              "C": 2
+            },
+            {
+              "type": "string",
+              "text": "Amount",
+              "R": 1,
+              "C": 3
+            },
+            {
+              "type": "string",
+              "text": "% of Budget",
+              "R": 1,
+              "C": 4
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "value": "2022-02-02",
+              "type": "date",
+              "text": "2022-02-02",
+              "R": 2,
+              "C": 1
+            },
+            {
+              "type": "string",
+              "text": "Train Ride to Berlin",
+              "R": 2,
+              "C": 2
+            },
+            {
+              "value": "97",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "97.00 €",
+              "R": 2,
+              "C": 3
+            },
+            {
+              "value": "0.485",
+              "type": "percentage",
+              "text": "48.50%",
+              "formula": "of:=AMOUNT/YEARLY_BUDGET",
+              "R": 2,
+              "C": 4
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "value": "2022-03-12",
+              "type": "date",
+              "text": "2022-03-12",
+              "R": 3,
+              "C": 1
+            },
+            {
+              "type": "string",
+              "text": "Train Ride to Cologne",
+              "R": 3,
+              "C": 2
+            },
+            {
+              "value": "87",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "87.00 €",
+              "R": 3,
+              "C": 3
+            },
+            {
+              "value": "0.435",
+              "type": "percentage",
+              "text": "43.50%",
+              "formula": "of:=AMOUNT/YEARLY_BUDGET",
+              "R": 3,
+              "C": 4
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "value": "2022-04-01",
+              "type": "date",
+              "text": "2022-04-01",
+              "R": 4,
+              "C": 1
+            },
+            {
+              "type": "string",
+              "text": "Taxi Ride",
+              "R": 4,
+              "C": 2
+            },
+            {
+              "value": "12",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "12.00 €",
+              "R": 4,
+              "C": 3
+            },
+            {
+              "value": "0.06",
+              "type": "percentage",
+              "text": "6.00%",
+              "formula": "of:=AMOUNT/YEARLY_BUDGET",
+              "R": 4,
+              "C": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Values",
+      "rows": [
+        {
+          "cells": [
+            {
+              "value": "200",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "200.00 €",
+              "R": 1,
+              "C": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "namedExpressions": {
+    "namedRanges": [
+      {
+        "name": "AMOUNT",
+        "baseCellAddress": "$Expenses.$C$2",
+        "cellRangeAddress": "$Expenses.$C$2:.$C$4"
+      },
+      {
+        "name": "YEARLY_BUDGET",
+        "baseCellAddress": "$Values.$A$1",
+        "cellRangeAddress": "$Values.$A$1"
+      }
+    ]
+  }
+}

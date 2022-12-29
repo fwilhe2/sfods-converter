@@ -1,0 +1,37 @@
+<spreadsheet>
+  <table name="Expenses">
+    <row>
+      <cell R="1" C="1" type="string"> <text><![CDATA[Date]]></text> </cell>
+      <cell R="1" C="2" type="string"> <text><![CDATA[Expense]]></text> </cell>
+      <cell R="1" C="3" type="string"> <text><![CDATA[Amount]]></text> </cell>
+      <cell R="1" C="4" type="string"> <text><![CDATA[% of Budget]]></text> </cell>
+    </row>
+    <row>
+      <cell R="2" C="1" value="2022-02-02" type="date"> <text><![CDATA[2022-02-02]]></text> </cell>
+      <cell R="2" C="2" type="string"> <text><![CDATA[Train Ride to Berlin]]></text> </cell>
+      <cell R="2" C="3" value="97" type="currency" currency="EUR"> <text><![CDATA[97.00 €]]></text> </cell>
+      <cell R="2" C="4" value="0.485" formula="of:=AMOUNT/YEARLY_BUDGET" type="percentage"> <text><![CDATA[48.50%]]></text> </cell>
+    </row>
+    <row>
+      <cell R="3" C="1" value="2022-03-12" type="date"> <text><![CDATA[2022-03-12]]></text> </cell>
+      <cell R="3" C="2" type="string"> <text><![CDATA[Train Ride to Cologne]]></text> </cell>
+      <cell R="3" C="3" value="87" type="currency" currency="EUR"> <text><![CDATA[87.00 €]]></text> </cell>
+      <cell R="3" C="4" value="0.435" formula="of:=AMOUNT/YEARLY_BUDGET" type="percentage"> <text><![CDATA[43.50%]]></text> </cell>
+    </row>
+    <row>
+      <cell R="4" C="1" value="2022-04-01" type="date"> <text><![CDATA[2022-04-01]]></text> </cell>
+      <cell R="4" C="2" type="string"> <text><![CDATA[Taxi Ride]]></text> </cell>
+      <cell R="4" C="3" value="12" type="currency" currency="EUR"> <text><![CDATA[12.00 €]]></text> </cell>
+      <cell R="4" C="4" value="0.06" formula="of:=AMOUNT/YEARLY_BUDGET" type="percentage"> <text><![CDATA[6.00%]]></text> </cell>
+    </row>
+  </table>
+  <table name="Values">
+    <row>
+      <cell R="1" C="1" value="200" type="currency" currency="EUR"> <text><![CDATA[200.00 €]]></text> </cell>
+    </row>
+  </table>
+  <named-expressions>
+    <named-range name="AMOUNT" base-cell-address="$Expenses.$C$2" cell-range-address="$Expenses.$C$2:.$C$4" />
+    <named-range name="YEARLY_BUDGET" base-cell-address="$Values.$A$1" cell-range-address="$Values.$A$1" />
+  </named-expressions>
+</spreadsheet>

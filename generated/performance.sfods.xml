@@ -1,0 +1,203 @@
+<spreadsheet>
+  <table name="Sheet1">
+    <row>
+      <cell R="1" C="1" type="string"> <text><![CDATA[Problem Size X]]></text> </cell>
+      <cell R="1" C="2" value="100" type="float" />
+      <cell R="1" C="3" type="string"> <text><![CDATA[Problem Size Y]]></text> </cell>
+      <cell R="1" C="4" value="100" type="float" />
+      <cell R="1" C="5" type="string"> <text><![CDATA[Compute Time per Cell]]></text> </cell>
+      <cell R="1" C="6" value="10" type="float" />
+      <cell R="1" C="7" type="string"> <text><![CDATA[Number of Ops]]></text> </cell>
+      <cell R="1" C="8" value="1" type="float" />
+      <cell R="1" C="9" type="string"> <text><![CDATA[Communication Time per Cell]]></text> </cell>
+      <cell R="1" C="10" value="200" type="float" />
+    </row>
+    <row>
+      <cell R="2" C="1" type="string"> <text><![CDATA[Number of CPUs]]></text> </cell>
+      <cell R="2" C="2" type="string"> <text><![CDATA[Parallel Computing Time]]></text> </cell>
+      <cell R="2" C="3" type="string"> <text><![CDATA[Sequential Computing Time]]></text> </cell>
+      <cell R="2" C="4" type="string"> <text><![CDATA[Speedup]]></text> </cell>
+      <cell R="2" C="5" type="string"> <text><![CDATA[Efficiency]]></text> </cell>
+    </row>
+    <row>
+      <cell R="3" C="1" value="1" type="float" />
+      <cell R="3" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="3" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="3" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="3" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="4" C="1" value="2" type="float" />
+      <cell R="4" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="4" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="4" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="4" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="5" C="1" value="3" type="float" />
+      <cell R="5" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="5" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="5" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="5" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="6" C="1" value="4" type="float" />
+      <cell R="6" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="6" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="6" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="6" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="7" C="1" value="5" type="float" />
+      <cell R="7" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="7" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="7" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="7" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="8" C="1" value="6" type="float" />
+      <cell R="8" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="8" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="8" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="8" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="9" C="1" value="7" type="float" />
+      <cell R="9" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="9" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="9" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="9" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="10" C="1" value="8" type="float" />
+      <cell R="10" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="10" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="10" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="10" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="11" C="1" value="9" type="float" />
+      <cell R="11" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="11" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="11" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="11" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="12" C="1" value="10" type="float" />
+      <cell R="12" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="12" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="12" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="12" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="13" C="1" value="11" type="float" />
+      <cell R="13" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="13" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="13" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="13" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="14" C="1" value="12" type="float" />
+      <cell R="14" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="14" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="14" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="14" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="15" C="1" value="13" type="float" />
+      <cell R="15" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="15" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="15" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="15" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="16" C="1" value="14" type="float" />
+      <cell R="16" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="16" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="16" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="16" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="17" C="1" value="15" type="float" />
+      <cell R="17" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="17" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="17" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="17" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="18" C="1" value="16" type="float" />
+      <cell R="18" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="18" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="18" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="18" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="19" C="1" value="17" type="float" />
+      <cell R="19" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="19" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="19" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="19" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="20" C="1" value="18" type="float" />
+      <cell R="20" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="20" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="20" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="20" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="21" C="1" value="19" type="float" />
+      <cell R="21" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="21" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="21" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="21" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="22" C="1" value="20" type="float" />
+      <cell R="22" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="22" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="22" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="22" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="23" C="1" value="21" type="float" />
+      <cell R="23" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="23" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="23" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="23" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="24" C="1" value="22" type="float" />
+      <cell R="24" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="24" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="24" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="24" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="25" C="1" value="23" type="float" />
+      <cell R="25" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="25" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="25" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="25" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+    <row>
+      <cell R="26" C="1" value="24" type="float" />
+      <cell R="26" C="2" formula="of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)" />
+      <cell R="26" C="3" formula="of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)" />
+      <cell R="26" C="4" formula="of:=(timeSequential/timeParallel)" />
+      <cell R="26" C="5" formula="of:=(speedup/numberOfCpus)" />
+    </row>
+  </table>
+  <named-expressions>
+    <named-range name="problemSizeX" base-cell-address="$Sheet1.$B$1" cell-range-address="$Sheet1.$B$1" />
+    <named-range name="problemSizeY" base-cell-address="$Sheet1.$D$1" cell-range-address="$Sheet1.$D$1" />
+    <named-range name="calculationTimePerCell" base-cell-address="$Sheet1.$F$1" cell-range-address="$Sheet1.$F$1" />
+    <named-range name="numberOfOperations" base-cell-address="$Sheet1.$H$1" cell-range-address="$Sheet1.$H$1" />
+    <named-range name="communicationTimePerCell" base-cell-address="$Sheet1.$J$1" cell-range-address="$Sheet1.$J$1" />
+    <named-range name="numberOfCpus" base-cell-address="$Sheet1.$A$3" cell-range-address="$Sheet1.$A$3:.$A$26" />
+    <named-range name="timeParallel" base-cell-address="$Sheet1.$B$3" cell-range-address="$Sheet1.$B$3:.$B$26" />
+    <named-range name="timeSequential" base-cell-address="$Sheet1.$C$3" cell-range-address="$Sheet1.$C$3:.$C$26" />
+    <named-range name="speedup" base-cell-address="$Sheet1.$D$3" cell-range-address="$Sheet1.$D$3:.$D$26" />
+    <named-range name="efficiency" base-cell-address="$Sheet1.$E$3" cell-range-address="$Sheet1.$E$3:.$E$26" />
+  </named-expressions>
+</spreadsheet>

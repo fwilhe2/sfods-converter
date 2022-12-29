@@ -1,0 +1,505 @@
+tables:
+  - name: Sheet1
+    rows:
+      - cells:
+          - type: string
+            text: Problem Size X
+            R: 1
+            C: 1
+          - value: "100"
+            type: float
+            R: 1
+            C: 2
+          - type: string
+            text: Problem Size Y
+            R: 1
+            C: 3
+          - value: "100"
+            type: float
+            R: 1
+            C: 4
+          - type: string
+            text: Compute Time per Cell
+            R: 1
+            C: 5
+          - value: "10"
+            type: float
+            R: 1
+            C: 6
+          - type: string
+            text: Number of Ops
+            R: 1
+            C: 7
+          - value: "1"
+            type: float
+            R: 1
+            C: 8
+          - type: string
+            text: Communication Time per Cell
+            R: 1
+            C: 9
+          - value: "200"
+            type: float
+            R: 1
+            C: 10
+      - cells:
+          - type: string
+            text: Number of CPUs
+            R: 2
+            C: 1
+          - type: string
+            text: Parallel Computing Time
+            R: 2
+            C: 2
+          - type: string
+            text: Sequential Computing Time
+            R: 2
+            C: 3
+          - type: string
+            text: Speedup
+            R: 2
+            C: 4
+          - type: string
+            text: Efficiency
+            R: 2
+            C: 5
+      - cells:
+          - value: "1"
+            type: float
+            R: 3
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 3
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 3
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 3
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 3
+            C: 5
+      - cells:
+          - value: "2"
+            type: float
+            R: 4
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 4
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 4
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 4
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 4
+            C: 5
+      - cells:
+          - value: "3"
+            type: float
+            R: 5
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 5
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 5
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 5
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 5
+            C: 5
+      - cells:
+          - value: "4"
+            type: float
+            R: 6
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 6
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 6
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 6
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 6
+            C: 5
+      - cells:
+          - value: "5"
+            type: float
+            R: 7
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 7
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 7
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 7
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 7
+            C: 5
+      - cells:
+          - value: "6"
+            type: float
+            R: 8
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 8
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 8
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 8
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 8
+            C: 5
+      - cells:
+          - value: "7"
+            type: float
+            R: 9
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 9
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 9
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 9
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 9
+            C: 5
+      - cells:
+          - value: "8"
+            type: float
+            R: 10
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 10
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 10
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 10
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 10
+            C: 5
+      - cells:
+          - value: "9"
+            type: float
+            R: 11
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 11
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 11
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 11
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 11
+            C: 5
+      - cells:
+          - value: "10"
+            type: float
+            R: 12
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 12
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 12
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 12
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 12
+            C: 5
+      - cells:
+          - value: "11"
+            type: float
+            R: 13
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 13
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 13
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 13
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 13
+            C: 5
+      - cells:
+          - value: "12"
+            type: float
+            R: 14
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 14
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 14
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 14
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 14
+            C: 5
+      - cells:
+          - value: "13"
+            type: float
+            R: 15
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 15
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 15
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 15
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 15
+            C: 5
+      - cells:
+          - value: "14"
+            type: float
+            R: 16
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 16
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 16
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 16
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 16
+            C: 5
+      - cells:
+          - value: "15"
+            type: float
+            R: 17
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 17
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 17
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 17
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 17
+            C: 5
+      - cells:
+          - value: "16"
+            type: float
+            R: 18
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 18
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 18
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 18
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 18
+            C: 5
+      - cells:
+          - value: "17"
+            type: float
+            R: 19
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 19
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 19
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 19
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 19
+            C: 5
+      - cells:
+          - value: "18"
+            type: float
+            R: 20
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 20
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 20
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 20
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 20
+            C: 5
+      - cells:
+          - value: "19"
+            type: float
+            R: 21
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 21
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 21
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 21
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 21
+            C: 5
+      - cells:
+          - value: "20"
+            type: float
+            R: 22
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 22
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 22
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 22
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 22
+            C: 5
+      - cells:
+          - value: "21"
+            type: float
+            R: 23
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 23
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 23
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 23
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 23
+            C: 5
+      - cells:
+          - value: "22"
+            type: float
+            R: 24
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 24
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 24
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 24
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 24
+            C: 5
+      - cells:
+          - value: "23"
+            type: float
+            R: 25
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 25
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 25
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 25
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 25
+            C: 5
+      - cells:
+          - value: "24"
+            type: float
+            R: 26
+            C: 1
+          - formula: of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+            R: 26
+            C: 2
+          - formula: of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+            R: 26
+            C: 3
+          - formula: of:=(timeSequential/timeParallel)
+            R: 26
+            C: 4
+          - formula: of:=(speedup/numberOfCpus)
+            R: 26
+            C: 5
+namedExpressions:
+  namedRanges:
+    - name: problemSizeX
+      baseCellAddress: $Sheet1.$B$1
+      cellRangeAddress: $Sheet1.$B$1
+    - name: problemSizeY
+      baseCellAddress: $Sheet1.$D$1
+      cellRangeAddress: $Sheet1.$D$1
+    - name: calculationTimePerCell
+      baseCellAddress: $Sheet1.$F$1
+      cellRangeAddress: $Sheet1.$F$1
+    - name: numberOfOperations
+      baseCellAddress: $Sheet1.$H$1
+      cellRangeAddress: $Sheet1.$H$1
+    - name: communicationTimePerCell
+      baseCellAddress: $Sheet1.$J$1
+      cellRangeAddress: $Sheet1.$J$1
+    - name: numberOfCpus
+      baseCellAddress: $Sheet1.$A$3
+      cellRangeAddress: $Sheet1.$A$3:.$A$26
+    - name: timeParallel
+      baseCellAddress: $Sheet1.$B$3
+      cellRangeAddress: $Sheet1.$B$3:.$B$26
+    - name: timeSequential
+      baseCellAddress: $Sheet1.$C$3
+      cellRangeAddress: $Sheet1.$C$3:.$C$26
+    - name: speedup
+      baseCellAddress: $Sheet1.$D$3
+      cellRangeAddress: $Sheet1.$D$3:.$D$26
+    - name: efficiency
+      baseCellAddress: $Sheet1.$E$3
+      cellRangeAddress: $Sheet1.$E$3:.$E$26
