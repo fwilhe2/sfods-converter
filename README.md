@@ -1,4 +1,3 @@
-
 Simplify 'normal' flat ods file
 
 ```

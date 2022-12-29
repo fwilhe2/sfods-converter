@@ -1,12 +1,10 @@
 import test from "node:test";
 import { strict as assert } from "node:assert";
-import { convertFodsToSfods } from "./convert-fods-to-sfods.mjs";
+import { parseFods } from "./convert-fods-to-sfods.mjs";
 import { Spreadsheet } from "./model.mjs";
 
 test("Can convert expenses spreadsheet into model representation", async () => {
-  const actual: Spreadsheet = await convertFodsToSfods(
-    "test_data/expense-tracker.fods"
-  );
+  const actual: Spreadsheet = await parseFods("test_data/expense-tracker.fods");
   assert(actual.tables.length === 2);
   assert(actual.tables[0].name === "Expenses");
   assert(actual.tables[0].rows.length === 4);

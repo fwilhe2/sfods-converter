@@ -1,6 +1,7 @@
 import { readdir, writeFile } from "fs/promises";
+import path, { join } from "path";
 import { argv } from "process";
-import { convertFodsToSfods } from "./convert-fods-to-sfods.mjs";
+import { parseFods } from "./convert-fods-to-sfods.mjs";
 import { jsonPrinter, xmlPrinter, yamlPrinter } from "./printers.mjs";
 
 try {
@@ -8,16 +9,25 @@ try {
   for (const file of files) {
     if (file.endsWith(".fods")) {
       await writeFile(
-        `generated/${file.replace("fods", "sfods")}.xml`,
-        xmlPrinter(await convertFodsToSfods(`test_data/${file}`))
+        path.join(
+          "generated",
+          path.basename(`generated/${file}`, "fods") + "sfods.xml"
+        ),
+        xmlPrinter(await parseFods(join("test_data", file)))
       );
       await writeFile(
-        `generated/${file.replace("fods", "sfods")}.json`,
-        jsonPrinter(await convertFodsToSfods(`test_data/${file}`))
+        path.join(
+          "generated",
+          path.basename(`generated/${file}`, "fods") + "sfods.json"
+        ),
+        jsonPrinter(await parseFods(join("test_data", file)))
       );
       await writeFile(
-        `generated/${file.replace("fods", "sfods")}.yaml`,
-        yamlPrinter(await convertFodsToSfods(`test_data/${file}`))
+        path.join(
+          "generated",
+          path.basename(`generated/${file}`, "fods") + "sfods.yaml"
+        ),
+        yamlPrinter(await parseFods(join("test_data", file)))
       );
     }
   }
