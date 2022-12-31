@@ -1,7 +1,7 @@
 export type Text = string;
 export type Cell = {
   value: string | number | undefined;
-  type: "float" | "string" | "currency" | "date";
+  type: "float" | "string" | "currency" | "date" | "time" | "percentage";
   currency: "EUR" | undefined;
   text: Text | undefined;
   formula: string | undefined;
