@@ -18,8 +18,9 @@ export type NamedExpressions = { namedRanges: NamedRange[] };
 export type Table = {
   name: string;
   rows: Row[];
+  namedExpressions: NamedExpressions | undefined;
 };
 export type Spreadsheet = {
   tables: Table[];
-  namedExpressions: NamedExpressions;
+  namedExpressions: NamedExpressions | undefined;
 };

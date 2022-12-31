@@ -17,6 +17,7 @@ export function parseXml(input: string): Spreadsheet {
           "spreadsheet.tables",
           "spreadsheet.tables.rows",
           "spreadsheet.tables.rows.cells",
+          "spreadsheet.tables.namedExpressions.namedRanges",
         ].indexOf(jpath) !== -1
       )
         return true;

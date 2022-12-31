@@ -1,0 +1,381 @@
+{
+  "tables": [
+    {
+      "name": "Overview",
+      "rows": [
+        {
+          "cells": [
+            {
+              "R": 1,
+              "C": 1
+            },
+            {
+              "R": 1,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "R": 2,
+              "C": 1
+            },
+            {
+              "type": "string",
+              "text": "Year 1",
+              "R": 2,
+              "C": 2
+            },
+            {
+              "type": "string",
+              "text": "Year 2",
+              "R": 2,
+              "C": 3
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Item 1",
+              "R": 3,
+              "C": 1
+            },
+            {
+              "value": "345",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "345.00 €",
+              "R": 3,
+              "C": 2
+            },
+            {
+              "value": "745",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "745.00 €",
+              "R": 3,
+              "C": 3
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Item 2",
+              "R": 4,
+              "C": 1
+            },
+            {
+              "value": "65",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "65.00 €",
+              "R": 4,
+              "C": 2
+            },
+            {
+              "value": "334",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "334.00 €",
+              "R": 4,
+              "C": 3
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Item 3",
+              "R": 5,
+              "C": 1
+            },
+            {
+              "value": "34",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "34.00 €",
+              "R": 5,
+              "C": 2
+            },
+            {
+              "value": "43",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "43.00 €",
+              "R": 5,
+              "C": 3
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "R": 6,
+              "C": 1
+            },
+            {
+              "value": "444",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "444.00 €",
+              "formula": "of:=SUM(ASSET_CLASS1_YEAR1)",
+              "R": 6,
+              "C": 2
+            },
+            {
+              "value": "1122",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "1,122.00 €",
+              "formula": "of:=SUM(ASSET_CLASS1_YEAR2)",
+              "R": 6,
+              "C": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Year1",
+      "rows": [
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Asset Class 1",
+              "R": 1,
+              "C": 1
+            },
+            {
+              "R": 1,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "R": 2,
+              "C": 1
+            },
+            {
+              "R": 2,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Item 1",
+              "R": 3,
+              "C": 1
+            },
+            {
+              "value": "345",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "345.00 €",
+              "R": 3,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Item 2",
+              "R": 4,
+              "C": 1
+            },
+            {
+              "value": "65",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "65.00 €",
+              "R": 4,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Item 3",
+              "R": 5,
+              "C": 1
+            },
+            {
+              "value": "34",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "34.00 €",
+              "R": 5,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "R": 6,
+              "C": 1
+            },
+            {
+              "value": "444",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "444.00 €",
+              "formula": "of:=SUM(ASSET_CLASS1)",
+              "R": 6,
+              "C": 2
+            }
+          ]
+        }
+      ],
+      "namedExpressions": {
+        "namedRanges": [
+          {
+            "name": "ASSET_CLASS1",
+            "baseCellAddress": "$Overview.$B$7",
+            "cellRangeAddress": "$Year1.$B$3:.$B$5"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Year2",
+      "rows": [
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Asset Class 1",
+              "R": 1,
+              "C": 1
+            },
+            {
+              "R": 1,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "R": 2,
+              "C": 1
+            },
+            {
+              "R": 2,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Item 1",
+              "R": 3,
+              "C": 1
+            },
+            {
+              "value": "745",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "745.00 €",
+              "R": 3,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Item 2",
+              "R": 4,
+              "C": 1
+            },
+            {
+              "value": "334",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "334.00 €",
+              "R": 4,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Item 3",
+              "R": 5,
+              "C": 1
+            },
+            {
+              "value": "43",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "43.00 €",
+              "R": 5,
+              "C": 2
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "R": 6,
+              "C": 1
+            },
+            {
+              "value": "1122",
+              "type": "currency",
+              "currency": "EUR",
+              "text": "1,122.00 €",
+              "formula": "of:=SUM(ASSET_CLASS1)",
+              "R": 6,
+              "C": 2
+            }
+          ]
+        }
+      ],
+      "namedExpressions": {
+        "namedRanges": [
+          {
+            "name": "ASSET_CLASS1",
+            "baseCellAddress": "$Year2.$B$3",
+            "cellRangeAddress": "$Year2.$B$3:.$B$5"
+          }
+        ]
+      }
+    }
+  ],
+  "namedExpressions": {
+    "namedRanges": [
+      {
+        "name": "ASSET_CLASS1_YEAR1",
+        "baseCellAddress": "$Overview.$B$3",
+        "cellRangeAddress": "$Overview.$B$3:.$B$5"
+      },
+      {
+        "name": "ASSET_CLASS1_YEAR2",
+        "baseCellAddress": "$Overview.$C$3",
+        "cellRangeAddress": "$Overview.$C$3:.$C$5"
+      }
+    ]
+  }
+}

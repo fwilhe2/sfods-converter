@@ -1,0 +1,97 @@
+<spreadsheet>
+  <table name="Overview">
+    <row>
+      <cell R="1" C="1" />
+      <cell R="1" C="2" />
+    </row>
+    <row>
+      <cell R="2" C="1" />
+      <cell R="2" C="2" type="string"> <text><![CDATA[Year 1]]></text> </cell>
+      <cell R="2" C="3" type="string"> <text><![CDATA[Year 2]]></text> </cell>
+    </row>
+    <row>
+      <cell R="3" C="1" type="string"> <text><![CDATA[Item 1]]></text> </cell>
+      <cell R="3" C="2" value="345" type="currency" currency="EUR"> <text><![CDATA[345.00 €]]></text> </cell>
+      <cell R="3" C="3" value="745" type="currency" currency="EUR"> <text><![CDATA[745.00 €]]></text> </cell>
+    </row>
+    <row>
+      <cell R="4" C="1" type="string"> <text><![CDATA[Item 2]]></text> </cell>
+      <cell R="4" C="2" value="65" type="currency" currency="EUR"> <text><![CDATA[65.00 €]]></text> </cell>
+      <cell R="4" C="3" value="334" type="currency" currency="EUR"> <text><![CDATA[334.00 €]]></text> </cell>
+    </row>
+    <row>
+      <cell R="5" C="1" type="string"> <text><![CDATA[Item 3]]></text> </cell>
+      <cell R="5" C="2" value="34" type="currency" currency="EUR"> <text><![CDATA[34.00 €]]></text> </cell>
+      <cell R="5" C="3" value="43" type="currency" currency="EUR"> <text><![CDATA[43.00 €]]></text> </cell>
+    </row>
+    <row>
+      <cell R="6" C="1" />
+      <cell R="6" C="2" value="444" formula="of:=SUM(ASSET_CLASS1_YEAR1)" type="currency" currency="EUR"> <text><![CDATA[444.00 €]]></text> </cell>
+      <cell R="6" C="3" value="1122" formula="of:=SUM(ASSET_CLASS1_YEAR2)" type="currency" currency="EUR"> <text><![CDATA[1,122.00 €]]></text> </cell>
+    </row>
+    <named-expressions>
+    </named-expressions>
+  </table>
+  <table name="Year1">
+    <row>
+      <cell R="1" C="1" type="string"> <text><![CDATA[Asset Class 1]]></text> </cell>
+      <cell R="1" C="2" />
+    </row>
+    <row>
+      <cell R="2" C="1" />
+      <cell R="2" C="2" />
+    </row>
+    <row>
+      <cell R="3" C="1" type="string"> <text><![CDATA[Item 1]]></text> </cell>
+      <cell R="3" C="2" value="345" type="currency" currency="EUR"> <text><![CDATA[345.00 €]]></text> </cell>
+    </row>
+    <row>
+      <cell R="4" C="1" type="string"> <text><![CDATA[Item 2]]></text> </cell>
+      <cell R="4" C="2" value="65" type="currency" currency="EUR"> <text><![CDATA[65.00 €]]></text> </cell>
+    </row>
+    <row>
+      <cell R="5" C="1" type="string"> <text><![CDATA[Item 3]]></text> </cell>
+      <cell R="5" C="2" value="34" type="currency" currency="EUR"> <text><![CDATA[34.00 €]]></text> </cell>
+    </row>
+    <row>
+      <cell R="6" C="1" />
+      <cell R="6" C="2" value="444" formula="of:=SUM(ASSET_CLASS1)" type="currency" currency="EUR"> <text><![CDATA[444.00 €]]></text> </cell>
+    </row>
+    <named-expressions>
+      <named-range name="ASSET_CLASS1" base-cell-address="$Overview.$B$7" cell-range-address="$Year1.$B$3:.$B$5" />
+    </named-expressions>
+  </table>
+  <table name="Year2">
+    <row>
+      <cell R="1" C="1" type="string"> <text><![CDATA[Asset Class 1]]></text> </cell>
+      <cell R="1" C="2" />
+    </row>
+    <row>
+      <cell R="2" C="1" />
+      <cell R="2" C="2" />
+    </row>
+    <row>
+      <cell R="3" C="1" type="string"> <text><![CDATA[Item 1]]></text> </cell>
+      <cell R="3" C="2" value="745" type="currency" currency="EUR"> <text><![CDATA[745.00 €]]></text> </cell>
+    </row>
+    <row>
+      <cell R="4" C="1" type="string"> <text><![CDATA[Item 2]]></text> </cell>
+      <cell R="4" C="2" value="334" type="currency" currency="EUR"> <text><![CDATA[334.00 €]]></text> </cell>
+    </row>
+    <row>
+      <cell R="5" C="1" type="string"> <text><![CDATA[Item 3]]></text> </cell>
+      <cell R="5" C="2" value="43" type="currency" currency="EUR"> <text><![CDATA[43.00 €]]></text> </cell>
+    </row>
+    <row>
+      <cell R="6" C="1" />
+      <cell R="6" C="2" value="1122" formula="of:=SUM(ASSET_CLASS1)" type="currency" currency="EUR"> <text><![CDATA[1,122.00 €]]></text> </cell>
+    </row>
+    <named-expressions>
+      <named-range name="ASSET_CLASS1" base-cell-address="$Year2.$B$3" cell-range-address="$Year2.$B$3:.$B$5" />
+    </named-expressions>
+  </table>
+  <named-expressions>
+    <named-range name="ASSET_CLASS1_YEAR1" base-cell-address="$Overview.$B$3" cell-range-address="$Overview.$B$3:.$B$5" />
+    <named-range name="ASSET_CLASS1_YEAR2" base-cell-address="$Overview.$C$3" cell-range-address="$Overview.$C$3:.$C$5" />
+  </named-expressions>
+</spreadsheet>

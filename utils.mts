@@ -1,4 +1,4 @@
-export function encureIsArray(object: any) {
+export function ensureIsArray(object: any) {
   if (!Array.isArray(object)) {
     return [object];
   }

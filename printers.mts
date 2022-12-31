@@ -33,11 +33,17 @@ export function xmlPrinter(spreadsheet: Spreadsheet) {
       result += "    </row>\n";
     });
 
+    result += "    <named-expressions>\n";
+    t.namedExpressions?.namedRanges.forEach((n) => {
+      result += `      <named-range name="${n.name}" base-cell-address="${n.baseCellAddress}" cell-range-address="${n.cellRangeAddress}" />\n`;
+    });
+    result += "    </named-expressions>\n";
+
     result += "  </table>\n";
   });
 
   result += "  <named-expressions>\n";
-  spreadsheet.namedExpressions.namedRanges.forEach((n) => {
+  spreadsheet.namedExpressions?.namedRanges.forEach((n) => {
     result += `    <named-range name="${n.name}" base-cell-address="${n.baseCellAddress}" cell-range-address="${n.cellRangeAddress}" />\n`;
   });
   result += "  </named-expressions>\n";

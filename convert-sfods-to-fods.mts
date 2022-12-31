@@ -1,15 +1,15 @@
 import { Cell, Row, Spreadsheet } from "./model.mjs";
-import { encureIsArray } from "./utils.mjs";
+import { ensureIsArray } from "./utils.mjs";
 
 export async function produceFods(spreadsheet: Spreadsheet): Promise<string> {
-  const tables = encureIsArray(spreadsheet.tables)
+  const tables = ensureIsArray(spreadsheet.tables)
     .map((t) => {
       return (
         `<table:table table:name="${t?.name ? t.name : "unnamed"}">` +
-        encureIsArray(t.rows)
+        ensureIsArray(t.rows)
           .map(
             (r: Row) =>
-              `                <table:table-row>\n${encureIsArray(r.cells)
+              `                <table:table-row>\n${ensureIsArray(r.cells)
                 .map(mapCells)
                 .join("")}                </table:table-row>\n`
           )
@@ -19,7 +19,7 @@ export async function produceFods(spreadsheet: Spreadsheet): Promise<string> {
     })
     .join("\n");
 
-  const namedRanges = spreadsheet.namedExpressions.namedRanges
+  const namedRanges = spreadsheet.namedExpressions?.namedRanges
     .map(
       (r: any) =>
         `<table:named-range table:name="${r.name}" table:base-cell-address="${r.baseCellAddress}" table:cell-range-address="${r.cellRangeAddress}"/>`
@@ -28,7 +28,7 @@ export async function produceFods(spreadsheet: Spreadsheet): Promise<string> {
 
   return FODS_TEMPLATE.replace("TABLES", tables).replace(
     "NAMED_RANGES",
-    namedRanges
+    namedRanges || ""
   );
 }
 

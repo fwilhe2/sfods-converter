@@ -8,7 +8,7 @@ import {
   Spreadsheet,
   Table,
 } from "./model.mjs";
-import { encureIsArray } from "./utils.mjs";
+import { ensureIsArray } from "./utils.mjs";
 
 export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
   const options = {
@@ -25,12 +25,12 @@ export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
   const rawTables = spreadsheet["table:table"];
   const rawNamedExpressions = spreadsheet["table:named-expressions"];
 
-  const tables = encureIsArray(rawTables).map(
+  const tables = ensureIsArray(rawTables).map(
     (table: { [x: string]: any[] }) => {
       const name = table["@_table:name"].toString();
-      const rows = encureIsArray(table["table:table-row"]).map(
+      const rows = ensureIsArray(table["table:table-row"]).map(
         (row: any, rowIndex: number) => {
-          const cells = encureIsArray(row["table:table-cell"]).map(
+          const cells = ensureIsArray(row["table:table-cell"]).map(
             (cell: any, columnIndex: number) => {
               return {
                 value: cell["@_office:value"]
@@ -53,13 +53,41 @@ export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
         }
       );
 
+      if (table["table:named-expressions"]) {
+        const namedExpressions = ensureIsArray(
+          table["table:named-expressions"]
+        ).map((expressions) => {
+          const namedRanges = ensureIsArray(expressions["table:named-range"]).map(
+            (range) => {
+              const name = range["@_table:name"];
+              const baseCellAddress = range["@_table:base-cell-address"];
+              const cellRangeAddress = range["@_table:cell-range-address"];
+
+              return {
+                name,
+                baseCellAddress,
+                cellRangeAddress,
+              } as NamedRange;
+            }
+          );
+
+          return { namedRanges } as NamedExpressions;
+        });
+
+        return {
+          name: name,
+          rows: rows,
+          namedExpressions: namedExpressions[0],
+        } as Table;
+      }
+
       return { name: name, rows: rows } as Table;
     }
   );
 
-  const namedExpressions = encureIsArray(rawNamedExpressions).map(
+  const namedExpressions = ensureIsArray(rawNamedExpressions).map(
     (expressions) => {
-      const namedRanges = encureIsArray(expressions["table:named-range"]).map(
+      const namedRanges = ensureIsArray(expressions["table:named-range"]).map(
         (range) => {
           const name = range["@_table:name"];
           const baseCellAddress = range["@_table:base-cell-address"];
