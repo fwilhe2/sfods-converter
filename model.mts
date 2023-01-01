@@ -22,5 +22,5 @@ export type Table = {
 };
 export type Spreadsheet = {
   tables: Table[];
-  namedExpressions: NamedExpressions | undefined;
+  namedExpressions: NamedExpressions;
 };

@@ -53,33 +53,31 @@ export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
         }
       );
 
-      if (table["table:named-expressions"]) {
-        const namedExpressions = ensureIsArray(
-          table["table:named-expressions"]
-        ).map((expressions) => {
-          const namedRanges = ensureIsArray(expressions["table:named-range"]).map(
-            (range) => {
-              const name = range["@_table:name"];
-              const baseCellAddress = range["@_table:base-cell-address"];
-              const cellRangeAddress = range["@_table:cell-range-address"];
+      const namedExpressions = ensureIsArray(
+        table["table:named-expressions"]
+      ).map((expressions) => {
+        const namedRanges = ensureIsArray(expressions["table:named-range"]).map(
+          (range) => {
+            const name = range["@_table:name"];
+            const baseCellAddress = range["@_table:base-cell-address"];
+            const cellRangeAddress = range["@_table:cell-range-address"];
 
-              return {
-                name,
-                baseCellAddress,
-                cellRangeAddress,
-              } as NamedRange;
-            }
-          );
+            return {
+              name,
+              baseCellAddress,
+              cellRangeAddress,
+            } as NamedRange;
+          }
+        );
 
-          return { namedRanges } as NamedExpressions;
-        });
+        return { namedRanges } as NamedExpressions;
+      });
 
-        return {
-          name: name,
-          rows: rows,
-          namedExpressions: namedExpressions[0],
-        } as Table;
-      }
+      return {
+        name: name,
+        rows: rows,
+        namedExpressions: namedExpressions[0],
+      } as Table;
 
       return { name: name, rows: rows } as Table;
     }
