@@ -1,11 +1,3 @@
 Simplify 'normal' flat ods file
 
-```
-sfods-converter --from fods --to (xml|json|yaml)
-```
-
-Convert simplified spreadsheet file to 'normal' flat ods file
-
-```
-sfods-converter --from (xml|json|yaml) --to fods
-```
+See [here](https://github.com/fwilhe2/sfods) for a general introduction to the format.
