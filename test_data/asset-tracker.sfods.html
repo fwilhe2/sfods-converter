@@ -1,0 +1,141 @@
+<style>
+  table,
+  th,
+  td {
+    border: thin solid #a0a0a0;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-width: thin 0 0 thin;
+    margin: 0 0 1em;
+    table-layout: auto;
+    max-width: 100%;
+  }
+
+  th,
+  td {
+    font-weight: normal;
+    text-align: left;
+  }
+
+  .numeric {
+    text-align: right;
+  }
+
+  th,
+  caption {
+    background-color: #f1f3f4;
+    font-weight: 700;
+  }
+
+  * {
+    font-family: "Courier New", Courier, monospace;
+  }
+</style>
+<table>
+  <caption>
+    Overview
+  </caption>
+  <tr>
+    <td class="text">&nbsp;</td>
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+    <td class="text">Year 1</td>
+    <td class="text">Year 2</td>
+  </tr>
+  <tr>
+    <td class="text">Item 1</td>
+    <td class="numeric">345.00 €</td>
+    <td class="numeric">745.00 €</td>
+  </tr>
+  <tr>
+    <td class="text">Item 2</td>
+    <td class="numeric">65.00 €</td>
+    <td class="numeric">334.00 €</td>
+  </tr>
+  <tr>
+    <td class="text">Item 3</td>
+    <td class="numeric">34.00 €</td>
+    <td class="numeric">43.00 €</td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+    <td class="numeric">444.00 €</td>
+    <td class="numeric">1,122.00 €</td>
+  </tr>
+</table>
+<table>
+  <caption>
+    Year1
+  </caption>
+  <tr>
+    <td class="text">Asset Class 1</td>
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text">Item 1</td>
+    <td class="numeric">345.00 €</td>
+  </tr>
+  <tr>
+    <td class="text">Item 2</td>
+    <td class="numeric">65.00 €</td>
+  </tr>
+  <tr>
+    <td class="text">Item 3</td>
+    <td class="numeric">34.00 €</td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+    <td class="numeric">444.00 €</td>
+  </tr>
+</table>
+<p>Named Ranges</p>
+<ul>
+  <li>ASSET_CLASS1 $Year1.$B$3:.$B$5</li>
+</ul>
+<table>
+  <caption>
+    Year2
+  </caption>
+  <tr>
+    <td class="text">Asset Class 1</td>
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+    <td class="text">&nbsp;</td>
+  </tr>
+  <tr>
+    <td class="text">Item 1</td>
+    <td class="numeric">745.00 €</td>
+  </tr>
+  <tr>
+    <td class="text">Item 2</td>
+    <td class="numeric">334.00 €</td>
+  </tr>
+  <tr>
+    <td class="text">Item 3</td>
+    <td class="numeric">43.00 €</td>
+  </tr>
+  <tr>
+    <td class="text">&nbsp;</td>
+    <td class="numeric">1,122.00 €</td>
+  </tr>
+</table>
+<p>Named Ranges</p>
+<ul>
+  <li>ASSET_CLASS1 $Year2.$B$3:.$B$5</li>
+</ul>
+<p>Named Ranges</p>
+<ul>
+  <li>ASSET_CLASS1_YEAR1 $Overview.$B$3:.$B$5</li>
+  <li>ASSET_CLASS1_YEAR2 $Overview.$C$3:.$C$5</li>
+</ul>

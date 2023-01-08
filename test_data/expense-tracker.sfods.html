@@ -1,0 +1,78 @@
+<style>
+  table,
+  th,
+  td {
+    border: thin solid #a0a0a0;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-width: thin 0 0 thin;
+    margin: 0 0 1em;
+    table-layout: auto;
+    max-width: 100%;
+  }
+
+  th,
+  td {
+    font-weight: normal;
+    text-align: left;
+  }
+
+  .numeric {
+    text-align: right;
+  }
+
+  th,
+  caption {
+    background-color: #f1f3f4;
+    font-weight: 700;
+  }
+
+  * {
+    font-family: "Courier New", Courier, monospace;
+  }
+</style>
+<table>
+  <caption>
+    Expenses
+  </caption>
+  <tr>
+    <td class="text">Date</td>
+    <td class="text">Expense</td>
+    <td class="text">Amount</td>
+    <td class="text">% of Budget</td>
+  </tr>
+  <tr>
+    <td class="text">2022-02-02</td>
+    <td class="text">Train Ride to Berlin</td>
+    <td class="numeric">97.00 €</td>
+    <td class="text">48.50%</td>
+  </tr>
+  <tr>
+    <td class="text">2022-03-12</td>
+    <td class="text">Train Ride to Cologne</td>
+    <td class="numeric">87.00 €</td>
+    <td class="text">43.50%</td>
+  </tr>
+  <tr>
+    <td class="text">2022-04-01</td>
+    <td class="text">Taxi Ride</td>
+    <td class="numeric">12.00 €</td>
+    <td class="text">6.00%</td>
+  </tr>
+</table>
+<table>
+  <caption>
+    Values
+  </caption>
+  <tr>
+    <td class="numeric">200.00 €</td>
+  </tr>
+</table>
+<p>Named Ranges</p>
+<ul>
+  <li>AMOUNT $Expenses.$C$2:.$C$4</li>
+  <li>YEARLY_BUDGET $Values.$A$1</li>
+</ul>
