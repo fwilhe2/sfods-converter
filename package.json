@@ -2,9 +2,14 @@
   "name": "sfods",
   "version": "0.0.1",
   "description": "",
+  "bin": {
+    "to-xml": "./dist/to-xml.mjs",
+    "to-json": "./dist/to-json.mjs",
+    "to-yaml": "./dist/to-yaml.mjs"
+  },
   "scripts": {
     "run": "NODE_OPTIONS=\"--loader ts-node/esm\" node index.mts",
-    "build": "tsc --noEmit",
+    "build": "tsc",
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "lint": "eslint .",
