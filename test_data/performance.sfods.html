@@ -1,0 +1,337 @@
+<style>
+  table,
+  th,
+  td {
+    border: thin solid #a0a0a0;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-width: thin 0 0 thin;
+    margin: 0 0 1em;
+    table-layout: auto;
+    max-width: 100%;
+  }
+
+  th,
+  td {
+    font-weight: normal;
+    text-align: left;
+  }
+
+  .numeric {
+    text-align: right;
+  }
+
+  th,
+  caption {
+    background-color: #f1f3f4;
+    font-weight: 700;
+  }
+
+  * {
+    font-family: "Courier New", Courier, monospace;
+  }
+</style>
+<table>
+  <caption>
+    Sheet1
+  </caption>
+  <tr>
+    <td class="text">Problem Size X</td>
+    <td class="numeric">100</td>
+    <td class="text">Problem Size Y</td>
+    <td class="numeric">100</td>
+    <td class="text">Compute Time per Cell</td>
+    <td class="numeric">10</td>
+    <td class="text">Number of Ops</td>
+    <td class="numeric">1</td>
+    <td class="text">Communication Time per Cell</td>
+    <td class="numeric">200</td>
+  </tr>
+  <tr>
+    <td class="text">Number of CPUs</td>
+    <td class="text">Parallel Computing Time</td>
+    <td class="text">Sequential Computing Time</td>
+    <td class="text">Speedup</td>
+    <td class="text">Efficiency</td>
+  </tr>
+  <tr>
+    <td class="numeric">1</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">2</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">3</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">4</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">5</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">6</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">7</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">8</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">9</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">10</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">11</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">12</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">13</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">14</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">15</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">16</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">17</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">18</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">19</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">20</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">21</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">22</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">23</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+  <tr>
+    <td class="numeric">24</td>
+    <td class="text">
+      of:=((problemSizeX/numberOfCpus)*problemSizeY*calculationTimePerCell*numberOfOperations+communicationTimePerCell*numberOfCpus)
+    </td>
+    <td class="text">
+      of:=(problemSizeX*problemSizeY*calculationTimePerCell*numberOfOperations)
+    </td>
+    <td class="text">of:=(timeSequential/timeParallel)</td>
+    <td class="text">of:=(speedup/numberOfCpus)</td>
+  </tr>
+</table>
+<p>Named Ranges</p>
+<ul>
+  <li>problemSizeX $Sheet1.$B$1</li>
+  <li>problemSizeY $Sheet1.$D$1</li>
+  <li>calculationTimePerCell $Sheet1.$F$1</li>
+  <li>numberOfOperations $Sheet1.$H$1</li>
+  <li>communicationTimePerCell $Sheet1.$J$1</li>
+  <li>numberOfCpus $Sheet1.$A$3:.$A$26</li>
+  <li>timeParallel $Sheet1.$B$3:.$B$26</li>
+  <li>timeSequential $Sheet1.$C$3:.$C$26</li>
+  <li>speedup $Sheet1.$D$3:.$D$26</li>
+  <li>efficiency $Sheet1.$E$3:.$E$26</li>
+</ul>

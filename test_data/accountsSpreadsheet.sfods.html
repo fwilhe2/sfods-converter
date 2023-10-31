@@ -1,0 +1,86 @@
+<style>
+  table,
+  th,
+  td {
+    border: thin solid #a0a0a0;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-width: thin 0 0 thin;
+    margin: 0 0 1em;
+    table-layout: auto;
+    max-width: 100%;
+  }
+
+  th,
+  td {
+    font-weight: normal;
+    text-align: left;
+  }
+
+  .numeric {
+    text-align: right;
+  }
+
+  th,
+  caption {
+    background-color: #f1f3f4;
+    font-weight: 700;
+  }
+
+  * {
+    font-family: "Courier New", Courier, monospace;
+  }
+</style>
+<table>
+  <caption>
+    Sheet1
+  </caption>
+  <tr>
+    <td class="text">&nbsp;</td>
+    <td class="text">2020</td>
+    <td class="text">2021</td>
+    <td class="text">2022</td>
+  </tr>
+  <tr>
+    <td class="text">Acc 1</td>
+    <td class="numeric">2.22</td>
+    <td class="numeric">3.22</td>
+    <td class="numeric">4.22</td>
+  </tr>
+  <tr>
+    <td class="text">Acc 2</td>
+    <td class="numeric">5.22</td>
+    <td class="numeric">6.22</td>
+    <td class="numeric">9.22</td>
+  </tr>
+  <tr>
+    <td class="text">Acc 3</td>
+    <td class="numeric">12.22</td>
+    <td class="numeric">13.22</td>
+    <td class="numeric">14.22</td>
+  </tr>
+  <tr>
+    <td class="text">Sum</td>
+    <td class="text">of:=SUM(YEAR2020)</td>
+    <td class="text">of:=SUM(YEAR2021)</td>
+    <td class="text">of:=SUM(YEAR2022)</td>
+  </tr>
+  <tr>
+    <td class="text">Diff</td>
+    <td class="text">&nbsp;</td>
+    <td class="text">of:=(SUM2021 - SUM2020)</td>
+    <td class="text">of:=(SUM2022 - SUM2021)</td>
+  </tr>
+</table>
+<p>Named Ranges</p>
+<ul>
+  <li>YEAR2020 $Sheet1.$B$2:.$B$4</li>
+  <li>YEAR2021 $Sheet1.$C$2:.$C$4</li>
+  <li>YEAR2022 $Sheet1.$D$2:.$D$4</li>
+  <li>SUM2020 $Sheet1.$B$5</li>
+  <li>SUM2021 $Sheet1.$C$5</li>
+  <li>SUM2022 $Sheet1.$D$5</li>
+</ul>

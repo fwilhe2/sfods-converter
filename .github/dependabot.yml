@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      time: "01:00"
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      time: "01:00"
+    ignore:
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]

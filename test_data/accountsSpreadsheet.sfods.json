@@ -1,0 +1,215 @@
+{
+  "tables": [
+    {
+      "name": "Sheet1",
+      "rows": [
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "",
+              "R": 1,
+              "C": 1
+            },
+            {
+              "type": "string",
+              "text": 2020,
+              "R": 1,
+              "C": 2
+            },
+            {
+              "type": "string",
+              "text": 2021,
+              "R": 1,
+              "C": 3
+            },
+            {
+              "type": "string",
+              "text": 2022,
+              "R": 1,
+              "C": 4
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Acc 1",
+              "R": 2,
+              "C": 1
+            },
+            {
+              "value": "2.22",
+              "type": "currency",
+              "currency": "EUR",
+              "R": 2,
+              "C": 2
+            },
+            {
+              "value": "3.22",
+              "type": "currency",
+              "currency": "EUR",
+              "R": 2,
+              "C": 3
+            },
+            {
+              "value": "4.22",
+              "type": "currency",
+              "currency": "EUR",
+              "R": 2,
+              "C": 4
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Acc 2",
+              "R": 3,
+              "C": 1
+            },
+            {
+              "value": "5.22",
+              "type": "currency",
+              "currency": "EUR",
+              "R": 3,
+              "C": 2
+            },
+            {
+              "value": "6.22",
+              "type": "currency",
+              "currency": "EUR",
+              "R": 3,
+              "C": 3
+            },
+            {
+              "value": "9.22",
+              "type": "currency",
+              "currency": "EUR",
+              "R": 3,
+              "C": 4
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Acc 3",
+              "R": 4,
+              "C": 1
+            },
+            {
+              "value": "12.22",
+              "type": "currency",
+              "currency": "EUR",
+              "R": 4,
+              "C": 2
+            },
+            {
+              "value": "13.22",
+              "type": "currency",
+              "currency": "EUR",
+              "R": 4,
+              "C": 3
+            },
+            {
+              "value": "14.22",
+              "type": "currency",
+              "currency": "EUR",
+              "R": 4,
+              "C": 4
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Sum",
+              "R": 5,
+              "C": 1
+            },
+            {
+              "formula": "of:=SUM(YEAR2020)",
+              "R": 5,
+              "C": 2
+            },
+            {
+              "formula": "of:=SUM(YEAR2021)",
+              "R": 5,
+              "C": 3
+            },
+            {
+              "formula": "of:=SUM(YEAR2022)",
+              "R": 5,
+              "C": 4
+            }
+          ]
+        },
+        {
+          "cells": [
+            {
+              "type": "string",
+              "text": "Diff",
+              "R": 6,
+              "C": 1
+            },
+            {
+              "type": "string",
+              "text": "",
+              "R": 6,
+              "C": 2
+            },
+            {
+              "formula": "of:=(SUM2021 - SUM2020)",
+              "R": 6,
+              "C": 3
+            },
+            {
+              "formula": "of:=(SUM2022 - SUM2021)",
+              "R": 6,
+              "C": 4
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "namedExpressions": {
+    "namedRanges": [
+      {
+        "name": "YEAR2020",
+        "baseCellAddress": "$Sheet1.$B$2",
+        "cellRangeAddress": "$Sheet1.$B$2:.$B$4"
+      },
+      {
+        "name": "YEAR2021",
+        "baseCellAddress": "$Sheet1.$C$2",
+        "cellRangeAddress": "$Sheet1.$C$2:.$C$4"
+      },
+      {
+        "name": "YEAR2022",
+        "baseCellAddress": "$Sheet1.$D$2",
+        "cellRangeAddress": "$Sheet1.$D$2:.$D$4"
+      },
+      {
+        "name": "SUM2020",
+        "baseCellAddress": "$Sheet1.$B$5",
+        "cellRangeAddress": "$Sheet1.$B$5"
+      },
+      {
+        "name": "SUM2021",
+        "baseCellAddress": "$Sheet1.$C$5",
+        "cellRangeAddress": "$Sheet1.$C$5"
+      },
+      {
+        "name": "SUM2022",
+        "baseCellAddress": "$Sheet1.$D$5",
+        "cellRangeAddress": "$Sheet1.$D$5"
+      }
+    ]
+  }
+}
