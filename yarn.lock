@@ -174,12 +174,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.18.8":
-  version: 18.18.8
-  resolution: "@types/node@npm:18.18.8"
+"@types/node@npm:18.18.13":
+  version: 18.18.13
+  resolution: "@types/node@npm:18.18.13"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 6a8592675bfc0895c0a3ed1b942344d56538c178c0acab8fcbaf069a6bdeef6f8a416d5aa297a8ced34232919caf7658a4dd4eabf33a9ae1a755eeef9ea8e681
+  checksum: 5f1840f26b4c00e6b4945be678644a46e6689ef10d9d7795d587b76059045b99a14ca6075264296e6e91d73e098fe83df9580881278d9a6ce394b368d9c76700
   languageName: node
   linkType: hard
 
@@ -1177,7 +1177,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sfods@workspace:."
   dependencies:
-    "@types/node": "npm:18.18.8"
+    "@types/node": "npm:18.18.13"
     "@typescript-eslint/eslint-plugin": "npm:^6.9.1"
     "@typescript-eslint/parser": "npm:^6.9.1"
     eslint: "npm:^8.52.0"
