@@ -2,7 +2,6 @@
   "name": "sfods",
   "version": "0.0.1",
   "description": "",
-  "packageManager": "yarn@4.0.1",
   "bin": {
     "to-json": "./dist/to-json.mjs",
     "to-xml": "./dist/to-xml.mjs",
@@ -15,8 +14,7 @@
     "format-check": "prettier --check .",
     "lint": "eslint .",
     "test": "NODE_OPTIONS=\"--loader ts-node/esm\" node test.mts",
-    "all": "yarn run build && yarn run format && yarn run lint && yarn test",
-    "dependency-upgrade": "yarn upgrade && yarn run all"
+    "all": "npm run build && npm run format && npm run lint && npm test"
   },
   "dependencies": {
     "fast-xml-parser": "^4.3.2",

@@ -12,16 +12,7 @@ export function xmlPrinter(spreadsheet) {
     t.rows.forEach((r) => {
       result += "    <row>\n";
       r.cells.forEach((c) => {
-        result += `      <cell${optional(c.R, "R")}${optional(
-          c.C,
-          "C",
-        )}${optional(c.value, "value")}${optional(
-          c.formula,
-          "formula",
-        )}${optional(c.type, "type")}${optional(
-          c.currency,
-          "currency",
-        )}${optionalText(c.text)}\n`;
+        result += `      <cell${optional(c.R, "R")}${optional(c.C, "C")}${optional(c.value, "value")}${optional(c.formula, "formula")}${optional(c.type, "type")}${optional(c.currency, "currency")}${optionalText(c.text)}\n`;
       });
       result += "    </row>\n";
     });
@@ -102,9 +93,7 @@ export function htmlPrinter(spreadsheet) {
     t.rows.forEach((r) => {
       result += "    <tr>\n";
       r.cells.forEach((c) => {
-        result += `      <td class="${
-          c.type === "currency" || c.type === "float" ? "numeric" : "text"
-        }">${cellString(c)}</td>\n`;
+        result += `      <td class="${c.type === "currency" || c.type === "float" ? "numeric" : "text"}">${cellString(c)}</td>\n`;
       });
       result += "    </tr>\n";
     });

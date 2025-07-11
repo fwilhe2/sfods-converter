@@ -11,6 +11,6 @@ jobs:
         with:
           node-version: latest
       - run: |
-          yarn
+          npm ci
       - run: |
-          yarn run all
+          npm run all
