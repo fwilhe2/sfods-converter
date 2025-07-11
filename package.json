@@ -29,7 +29,7 @@
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^6.9.1",
     "eslint": "^8.52.0",
-    "prettier": "^3.0.3"
+    "prettier": "^3.6.2"
   },
   "keywords": [],
   "author": "",
