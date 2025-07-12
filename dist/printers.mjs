@@ -1,4 +1,4 @@
-import { stringify } from "yaml";
+import { stringify as yamlStringify } from "yaml";
 function optional(value, elementName) {
   return value ? ` ${elementName}="${value}"` : "";
 }
@@ -35,7 +35,7 @@ export function jsonPrinter(spreadsheet) {
   return JSON.stringify(spreadsheet, undefined, 4);
 }
 export function yamlPrinter(spreadsheet) {
-  return stringify(spreadsheet);
+  return yamlStringify(spreadsheet);
 }
 function cellString(c) {
   if (c.text) {

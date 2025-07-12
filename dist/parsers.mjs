@@ -1,5 +1,5 @@
 import { XMLParser } from "fast-xml-parser";
-import { parse } from "yaml";
+import { parse as yamlParse } from "yaml";
 export function parseXml(input) {
   const options = {
     ignoreAttributes: false,
@@ -43,5 +43,5 @@ export function parseJson(input) {
   return JSON.parse(input);
 }
 export function parseYaml(input) {
-  return parse(input);
+  return yamlParse(input);
 }

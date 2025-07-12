@@ -1,4 +1,4 @@
-import { stringify } from "yaml";
+import { stringify as yamlStringify } from "yaml";
 import { Cell, Spreadsheet } from "./model.mjs";
 
 function optional(value: string | number | undefined, elementName: string) {
@@ -57,7 +57,7 @@ export function jsonPrinter(spreadsheet: Spreadsheet) {
 }
 
 export function yamlPrinter(spreadsheet: Spreadsheet) {
-  return stringify(spreadsheet);
+  return yamlStringify(spreadsheet);
 }
 
 function cellString(c: Cell): string {

@@ -1,6 +1,6 @@
 import { XMLParser } from "fast-xml-parser";
 import { Spreadsheet } from "./model.mjs";
-import { parse } from "yaml";
+import { parse as yamlParse } from "yaml";
 
 export function parseXml(input: string): Spreadsheet {
   const options = {
@@ -55,5 +55,5 @@ export function parseJson(input: string): Spreadsheet {
 }
 
 export function parseYaml(input: string): Spreadsheet {
-  return parse(input);
+  return yamlParse(input);
 }
