@@ -1,4 +1,4 @@
-import { XMLParser } from "fast-xml-parser";
+import { XMLParser, MatcherView } from "fast-xml-parser";
 import { Spreadsheet } from "./model.mjs";
 import { parse as yamlParse } from "yaml";
 
@@ -6,12 +6,16 @@ export function parseXml(input: string): Spreadsheet {
   const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "",
-    isArray: (
-      name: string,
-      jpath: string,
-      isLeafNode: boolean,
-      isAttribute: boolean,
-    ) => {
+    // The SFODS XML uses kebab-case attributes (base-cell-address), but the
+    // model is camelCase (baseCellAddress); map them so named ranges parse.
+    transformAttributeName: (name: string) =>
+      name.replace(/-([a-z])/g, (_match, char: string) => char.toUpperCase()),
+    // Keep jPath as a string (fast-xml-parser >=5.10 can otherwise pass a
+    // MatcherView here); the array detection below matches on jPath strings.
+    jPath: true,
+    isArray: (name: string, jpath: string | MatcherView) => {
+      if (typeof jpath !== "string") return false;
+
       if (
         [
           "spreadsheet.tables",
@@ -45,15 +49,15 @@ export function parseXml(input: string): Spreadsheet {
     },
   };
   const parser = new XMLParser(options);
-  const parsed = parser.parse(input);
+  const parsed = parser.parse(input) as { spreadsheet: Spreadsheet };
 
   return parsed.spreadsheet;
 }
 
 export function parseJson(input: string): Spreadsheet {
-  return JSON.parse(input);
+  return JSON.parse(input) as Spreadsheet;
 }
 
 export function parseYaml(input: string): Spreadsheet {
-  return yamlParse(input);
+  return yamlParse(input) as Spreadsheet;
 }

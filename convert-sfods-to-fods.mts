@@ -1,11 +1,24 @@
-import { Cell, Row, Spreadsheet } from "./model.mjs";
-import { ensureIsArray } from "./utils.mjs";
+import { Cell, NamedRange, Row, Spreadsheet } from "./model.mjs";
+import { ensureIsArray, escapeXmlAttr } from "./utils.mjs";
 
-export async function produceFods(spreadsheet: Spreadsheet): Promise<string> {
+function namedRangeElement(r: NamedRange): string {
+  return `<table:named-range table:name="${escapeXmlAttr(r.name)}" table:base-cell-address="${escapeXmlAttr(r.baseCellAddress)}" table:cell-range-address="${escapeXmlAttr(r.cellRangeAddress)}"/>`;
+}
+
+export function produceFods(spreadsheet: Spreadsheet): string {
   const tables = ensureIsArray(spreadsheet.tables)
     .map((t) => {
+      const tableNamedRanges = ensureIsArray(t.namedExpressions?.namedRanges);
+      const tableNamedExpressions =
+        tableNamedRanges.length > 0
+          ? `<table:named-expressions>${tableNamedRanges
+              .map(namedRangeElement)
+              .join("")}</table:named-expressions>`
+          : "";
       return (
-        `<table:table table:name="${t?.name ? t.name : "unnamed"}">` +
+        `<table:table table:name="${escapeXmlAttr(
+          t?.name ? t.name : "unnamed",
+        )}">` +
         ensureIsArray(t.rows)
           .map(
             (r: Row) =>
@@ -14,16 +27,14 @@ export async function produceFods(spreadsheet: Spreadsheet): Promise<string> {
                 .join("")}                </table:table-row>\n`,
           )
           .join("") +
+        tableNamedExpressions +
         "</table:table>"
       );
     })
     .join("\n");
 
-  const namedRanges = spreadsheet.namedExpressions?.namedRanges
-    .map(
-      (r: any) =>
-        `<table:named-range table:name="${r.name}" table:base-cell-address="${r.baseCellAddress}" table:cell-range-address="${r.cellRangeAddress}"/>`,
-    )
+  const namedRanges = ensureIsArray(spreadsheet.namedExpressions?.namedRanges)
+    .map(namedRangeElement)
     .join("\n");
 
   return FODS_TEMPLATE.replace("TABLES", tables).replace(
@@ -37,21 +48,19 @@ function mapCells(value: Cell): string {
 }
 
 function tableCellElement(cell: Cell): string {
-  if (cell.formula) {
-    //todo: table style name attribute
-    return `<table:table-cell table:formula="${cell.formula}" ${
-      cell.type
-        ? `office:value-type="${cell.type}" calcext:value-type="${cell.type}"`
-        : ""
-    } />`;
-  }
+  // A formula does not replace the cell's value/type — it is an extra attribute
+  // carried alongside the cached result, so the value is preserved on reparse.
+  const formulaAttr = cell.formula
+    ? `table:formula="${escapeXmlAttr(cell.formula)}" `
+    : "";
+  const value = cell.value === undefined ? "" : escapeXmlAttr(cell.value);
 
   if (cell.type === "float") {
-    return `<table:table-cell office:value="${cell.value}" table:style-name="FLOAT_STYLE" office:value-type="float" calcext:value-type="float" />`;
+    return `<table:table-cell ${formulaAttr}office:value="${value}" table:style-name="FLOAT_STYLE" office:value-type="float" calcext:value-type="float" />`;
   }
 
   if (cell.type === "date") {
-    return `<table:table-cell office:date-value="${cell.value}" table:style-name="DATE_STYLE" office:value-type="date" calcext:value-type="date" />`;
+    return `<table:table-cell ${formulaAttr}office:date-value="${value}" table:style-name="DATE_STYLE" office:value-type="date" calcext:value-type="date" />`;
   }
 
   if (cell.type === "time" && cell.value) {
@@ -61,18 +70,33 @@ function tableCellElement(cell: Cell): string {
       console.warn("expected hh:mm:ss format");
     }
 
-    return `<table:table-cell office:time-value="PT${components[0]}H${components[1]}M${components[2]}S" table:style-name="TIME_STYLE" office:value-type="time" calcext:value-type="time" />`;
+    return `<table:table-cell ${formulaAttr}office:time-value="PT${components[0]}H${components[1]}M${components[2]}S" table:style-name="TIME_STYLE" office:value-type="time" calcext:value-type="time" />`;
   }
 
   if (cell.type === "currency") {
-    return `<table:table-cell office:value="${cell.value}" table:style-name="EUR_STYLE" office:value-type="currency" office:currency="EUR" calcext:value-type="currency" />`;
+    return `<table:table-cell ${formulaAttr}office:value="${value}" table:style-name="EUR_STYLE" office:value-type="currency" office:currency="EUR" calcext:value-type="currency" />`;
   }
 
   if (cell.type === "percentage") {
-    return `<table:table-cell office:value="${cell.value}" table:style-name="PERCENTAGE_STYLE" office:value-type="percentage" calcext:value-type="percentage" />`;
+    return `<table:table-cell ${formulaAttr}office:value="${value}" table:style-name="PERCENTAGE_STYLE" office:value-type="percentage" calcext:value-type="percentage" />`;
   }
 
-  return `<table:table-cell office:value-type="string" calcext:value-type="string"> <text:p><![CDATA[${cell.text}]]></text:p> </table:table-cell>`;
+  // Fallback for string cells, empty cells, and formula cells with a string or
+  // unspecified result type. Emit only the parts that were actually present so
+  // the cell round-trips: in particular, do not invent an office:value-type for
+  // a typeless formula cell, and do not emit the literal text "undefined" for an
+  // empty cell.
+  const valueTypeAttr =
+    cell.type !== undefined
+      ? `office:value-type="${cell.type}" calcext:value-type="${cell.type}"`
+      : "";
+  const attrs = [formulaAttr.trim(), valueTypeAttr].filter((s) => s).join(" ");
+
+  if (cell.text === undefined || cell.text === null) {
+    return attrs ? `<table:table-cell ${attrs} />` : `<table:table-cell />`;
+  }
+
+  return `<table:table-cell ${attrs}> <text:p><![CDATA[${cell.text}]]></text:p> </table:table-cell>`;
 }
 
 const FODS_TEMPLATE = `<?xml version="1.0" encoding="UTF-8"?>

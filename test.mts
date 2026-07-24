@@ -2,7 +2,6 @@ import test from "node:test";
 import { strict as assert } from "node:assert";
 import { parseFods } from "./convert-fods-to-sfods.mjs";
 import { Spreadsheet } from "./model.mjs";
-import { produceFods } from "./convert-sfods-to-fods.mjs";
 import { readFile } from "node:fs/promises";
 import { parseJson, parseXml, parseYaml } from "./parsers.mjs";
 
