@@ -8,7 +8,11 @@ export function parseXml(input) {
     // model is camelCase (baseCellAddress); map them so named ranges parse.
     transformAttributeName: (name) =>
       name.replace(/-([a-z])/g, (_match, char) => char.toUpperCase()),
+    // Keep jPath as a string (fast-xml-parser >=5.10 can otherwise pass a
+    // MatcherView here); the array detection below matches on jPath strings.
+    jPath: true,
     isArray: (name, jpath, isLeafNode, isAttribute) => {
+      if (typeof jpath !== "string") return false;
       if (
         [
           "spreadsheet.tables",
