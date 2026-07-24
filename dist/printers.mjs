@@ -1,6 +1,11 @@
 import { stringify as yamlStringify } from "yaml";
+import { escapeXmlAttr } from "./utils.mjs";
 function optional(value, elementName) {
-  return value ? ` ${elementName}="${value}"` : "";
+  // Only skip genuinely absent values — a numeric 0 or a falsy value must still
+  // be emitted, and attribute contents must be XML-escaped.
+  return value === undefined || value === null || value === ""
+    ? ""
+    : ` ${elementName}="${escapeXmlAttr(value)}"`;
 }
 function optionalText(text) {
   return text ? "> <text><![CDATA[" + text + "]]></text> </cell>" : " />";
@@ -8,7 +13,7 @@ function optionalText(text) {
 export function xmlPrinter(spreadsheet) {
   let result = "<spreadsheet>\n";
   spreadsheet.tables.forEach((t) => {
-    result += `  <table name="${t.name}">\n`;
+    result += `  <table name="${escapeXmlAttr(t.name)}">\n`;
     t.rows.forEach((r) => {
       result += "    <row>\n";
       r.cells.forEach((c) => {
@@ -18,14 +23,14 @@ export function xmlPrinter(spreadsheet) {
     });
     result += "    <named-expressions>\n";
     t.namedExpressions?.namedRanges.forEach((n) => {
-      result += `      <named-range name="${n.name}" base-cell-address="${n.baseCellAddress}" cell-range-address="${n.cellRangeAddress}" />\n`;
+      result += `      <named-range name="${escapeXmlAttr(n.name)}" base-cell-address="${escapeXmlAttr(n.baseCellAddress)}" cell-range-address="${escapeXmlAttr(n.cellRangeAddress)}" />\n`;
     });
     result += "    </named-expressions>\n";
     result += "  </table>\n";
   });
   result += "  <named-expressions>\n";
   spreadsheet.namedExpressions?.namedRanges.forEach((n) => {
-    result += `    <named-range name="${n.name}" base-cell-address="${n.baseCellAddress}" cell-range-address="${n.cellRangeAddress}" />\n`;
+    result += `    <named-range name="${escapeXmlAttr(n.name)}" base-cell-address="${escapeXmlAttr(n.baseCellAddress)}" cell-range-address="${escapeXmlAttr(n.cellRangeAddress)}" />\n`;
   });
   result += "  </named-expressions>\n";
   result += "</spreadsheet>\n";

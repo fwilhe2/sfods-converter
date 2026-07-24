@@ -4,6 +4,10 @@ export function parseXml(input) {
   const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "",
+    // The SFODS XML uses kebab-case attributes (base-cell-address), but the
+    // model is camelCase (baseCellAddress); map them so named ranges parse.
+    transformAttributeName: (name) =>
+      name.replace(/-([a-z])/g, (_match, char) => char.toUpperCase()),
     isArray: (name, jpath, isLeafNode, isAttribute) => {
       if (
         [

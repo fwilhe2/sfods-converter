@@ -13,7 +13,7 @@
     "format": "prettier --write .",
     "format-check": "prettier --check .",
     "lint": "eslint .",
-    "test": "NODE_OPTIONS=\"--loader ts-node/esm\" node test.mts",
+    "test": "NODE_OPTIONS=\"--loader ts-node/esm\" node --test test.mts roundtrip.test.mts",
     "all": "npm run build && npm run format && npm run lint && npm test"
   },
   "dependencies": {

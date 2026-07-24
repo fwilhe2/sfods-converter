@@ -1,8 +1,13 @@
 import { stringify as yamlStringify } from "yaml";
 import { Cell, Spreadsheet } from "./model.mjs";
+import { escapeXmlAttr } from "./utils.mjs";
 
 function optional(value: string | number | undefined, elementName: string) {
-  return value ? ` ${elementName}="${value}"` : "";
+  // Only skip genuinely absent values — a numeric 0 or a falsy value must still
+  // be emitted, and attribute contents must be XML-escaped.
+  return value === undefined || value === null || value === ""
+    ? ""
+    : ` ${elementName}="${escapeXmlAttr(value)}"`;
 }
 
 function optionalText(text: string | undefined) {
@@ -12,7 +17,7 @@ function optionalText(text: string | undefined) {
 export function xmlPrinter(spreadsheet: Spreadsheet) {
   let result = "<spreadsheet>\n";
   spreadsheet.tables.forEach((t) => {
-    result += `  <table name="${t.name}">\n`;
+    result += `  <table name="${escapeXmlAttr(t.name)}">\n`;
 
     t.rows.forEach((r) => {
       result += "    <row>\n";
@@ -35,7 +40,7 @@ export function xmlPrinter(spreadsheet: Spreadsheet) {
 
     result += "    <named-expressions>\n";
     t.namedExpressions?.namedRanges.forEach((n) => {
-      result += `      <named-range name="${n.name}" base-cell-address="${n.baseCellAddress}" cell-range-address="${n.cellRangeAddress}" />\n`;
+      result += `      <named-range name="${escapeXmlAttr(n.name)}" base-cell-address="${escapeXmlAttr(n.baseCellAddress)}" cell-range-address="${escapeXmlAttr(n.cellRangeAddress)}" />\n`;
     });
     result += "    </named-expressions>\n";
 
@@ -44,7 +49,7 @@ export function xmlPrinter(spreadsheet: Spreadsheet) {
 
   result += "  <named-expressions>\n";
   spreadsheet.namedExpressions?.namedRanges.forEach((n) => {
-    result += `    <named-range name="${n.name}" base-cell-address="${n.baseCellAddress}" cell-range-address="${n.cellRangeAddress}" />\n`;
+    result += `    <named-range name="${escapeXmlAttr(n.name)}" base-cell-address="${escapeXmlAttr(n.baseCellAddress)}" cell-range-address="${escapeXmlAttr(n.cellRangeAddress)}" />\n`;
   });
   result += "  </named-expressions>\n";
   result += "</spreadsheet>\n";

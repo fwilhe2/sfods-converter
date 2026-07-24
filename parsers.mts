@@ -6,6 +6,10 @@ export function parseXml(input: string): Spreadsheet {
   const options = {
     ignoreAttributes: false,
     attributeNamePrefix: "",
+    // The SFODS XML uses kebab-case attributes (base-cell-address), but the
+    // model is camelCase (baseCellAddress); map them so named ranges parse.
+    transformAttributeName: (name: string) =>
+      name.replace(/-([a-z])/g, (_match, char: string) => char.toUpperCase()),
     isArray: (
       name: string,
       jpath: string,
