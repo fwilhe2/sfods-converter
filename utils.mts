@@ -1,4 +1,4 @@
-export function ensureIsArray(object: any) {
+export function ensureIsArray<T>(object: T | T[] | undefined): T[] {
   if (object === undefined) {
     return [];
   }

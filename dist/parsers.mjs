@@ -11,7 +11,7 @@ export function parseXml(input) {
     // Keep jPath as a string (fast-xml-parser >=5.10 can otherwise pass a
     // MatcherView here); the array detection below matches on jPath strings.
     jPath: true,
-    isArray: (name, jpath, isLeafNode, isAttribute) => {
+    isArray: (name, jpath) => {
       if (typeof jpath !== "string") return false;
       if (
         [

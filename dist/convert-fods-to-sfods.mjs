@@ -59,7 +59,6 @@ export async function parseFods(fodsFilePath) {
       rows: rows,
       namedExpressions: namedExpressions[0],
     };
-    return { name: name, rows: rows };
   });
   const namedExpressions = ensureIsArray(rawNamedExpressions).map(
     (expressions) => {

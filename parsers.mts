@@ -13,12 +13,7 @@ export function parseXml(input: string): Spreadsheet {
     // Keep jPath as a string (fast-xml-parser >=5.10 can otherwise pass a
     // MatcherView here); the array detection below matches on jPath strings.
     jPath: true,
-    isArray: (
-      name: string,
-      jpath: string | MatcherView,
-      isLeafNode: boolean,
-      isAttribute: boolean,
-    ) => {
+    isArray: (name: string, jpath: string | MatcherView) => {
       if (typeof jpath !== "string") return false;
 
       if (
