@@ -5,7 +5,7 @@ function namedRangeElement(r: NamedRange): string {
   return `<table:named-range table:name="${escapeXmlAttr(r.name)}" table:base-cell-address="${escapeXmlAttr(r.baseCellAddress)}" table:cell-range-address="${escapeXmlAttr(r.cellRangeAddress)}"/>`;
 }
 
-export async function produceFods(spreadsheet: Spreadsheet): Promise<string> {
+export function produceFods(spreadsheet: Spreadsheet): string {
   const tables = ensureIsArray(spreadsheet.tables)
     .map((t) => {
       const tableNamedRanges = ensureIsArray(t.namedExpressions?.namedRanges);

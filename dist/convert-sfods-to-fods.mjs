@@ -2,7 +2,7 @@ import { ensureIsArray, escapeXmlAttr } from "./utils.mjs";
 function namedRangeElement(r) {
   return `<table:named-range table:name="${escapeXmlAttr(r.name)}" table:base-cell-address="${escapeXmlAttr(r.baseCellAddress)}" table:cell-range-address="${escapeXmlAttr(r.cellRangeAddress)}"/>`;
 }
-export async function produceFods(spreadsheet) {
+export function produceFods(spreadsheet) {
   const tables = ensureIsArray(spreadsheet.tables)
     .map((t) => {
       const tableNamedRanges = ensureIsArray(t.namedExpressions?.namedRanges);

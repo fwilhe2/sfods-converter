@@ -1,6 +1,14 @@
 import { XMLParser } from "fast-xml-parser";
 import { readFile } from "fs/promises";
 import { ensureIsArray } from "./utils.mjs";
+function toNamedExpressions(raw) {
+  const namedRanges = ensureIsArray(raw["table:named-range"]).map((range) => ({
+    name: range["@_table:name"],
+    baseCellAddress: range["@_table:base-cell-address"],
+    cellRangeAddress: range["@_table:cell-range-address"],
+  }));
+  return { namedRanges };
+}
 export async function parseFods(fodsFilePath) {
   const options = {
     ignoreAttributes: false,
@@ -32,53 +40,24 @@ export async function parseFods(fodsFilePath) {
             };
           },
         );
-        return {
-          cells: cells,
-        };
+        return { cells };
       },
     );
     const namedExpressions = ensureIsArray(
       table["table:named-expressions"],
-    ).map((expressions) => {
-      const namedRanges = ensureIsArray(expressions["table:named-range"]).map(
-        (range) => {
-          const name = range["@_table:name"];
-          const baseCellAddress = range["@_table:base-cell-address"];
-          const cellRangeAddress = range["@_table:cell-range-address"];
-          return {
-            name,
-            baseCellAddress,
-            cellRangeAddress,
-          };
-        },
-      );
-      return { namedRanges };
-    });
-    return {
+    ).map(toNamedExpressions);
+    const result = {
       name: name,
       rows: rows,
       namedExpressions: namedExpressions[0],
     };
+    return result;
   });
-  const namedExpressions = ensureIsArray(rawNamedExpressions).map(
-    (expressions) => {
-      const namedRanges = ensureIsArray(expressions["table:named-range"]).map(
-        (range) => {
-          const name = range["@_table:name"];
-          const baseCellAddress = range["@_table:base-cell-address"];
-          const cellRangeAddress = range["@_table:cell-range-address"];
-          return {
-            name,
-            baseCellAddress,
-            cellRangeAddress,
-          };
-        },
-      );
-      return { namedRanges };
-    },
-  );
-  return {
+  const namedExpressions =
+    ensureIsArray(rawNamedExpressions).map(toNamedExpressions);
+  const result = {
     tables: tables,
     namedExpressions: namedExpressions[0],
   };
+  return result;
 }

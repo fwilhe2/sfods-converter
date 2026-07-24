@@ -87,7 +87,7 @@ function cell(partial: Partial<Cell>): Cell {
     R: undefined,
     C: undefined,
     ...partial,
-  } as Cell;
+  };
 }
 
 // --- SFODS serialization round-trips: model -> print -> parse -> model --------
@@ -120,7 +120,7 @@ for (const name of fodsFixtures) {
   test(`FODS round-trip preserves ${name}`, async () => {
     const model = await parseFods(`test_data/${name}.fods`);
     const out = join(tmpdir(), `sfods-rt-${name}.fods`);
-    await writeFile(out, await produceFods(model));
+    await writeFile(out, produceFods(model));
     const reparsed = await parseFods(out);
     assert.equal(sheetSig(reparsed), sheetSig(model));
   });

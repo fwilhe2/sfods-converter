@@ -1,14 +1,59 @@
 import { XMLParser } from "fast-xml-parser";
 import { readFile } from "fs/promises";
-import {
-  Cell,
-  NamedExpressions,
-  NamedRange,
-  Row,
-  Spreadsheet,
-  Table,
-} from "./model.mjs";
+import { Cell, NamedExpressions, Spreadsheet, Table, Text } from "./model.mjs";
 import { ensureIsArray } from "./utils.mjs";
+
+// Shape of the FODS document as produced by fast-xml-parser (attributes are
+// prefixed with "@_"). Only the parts this converter reads are described.
+type RawCell = {
+  "@_office:value"?: string | number;
+  "@_office:date-value"?: string;
+  "@_office:value-type"?: Cell["type"];
+  "@_office:currency"?: Cell["currency"];
+  "text:p"?: Text;
+  "@_table:formula"?: string;
+};
+
+type RawRow = {
+  "table:table-cell"?: RawCell | RawCell[];
+};
+
+type RawNamedRange = {
+  "@_table:name": string;
+  "@_table:base-cell-address": string;
+  "@_table:cell-range-address": string;
+};
+
+type RawNamedExpressions = {
+  "table:named-range"?: RawNamedRange | RawNamedRange[];
+};
+
+type RawTable = {
+  "@_table:name": string;
+  "table:table-row"?: RawRow | RawRow[];
+  "table:named-expressions"?: RawNamedExpressions | RawNamedExpressions[];
+};
+
+type RawFods = {
+  "office:document": {
+    "office:body": {
+      "office:spreadsheet": {
+        "table:table": RawTable | RawTable[];
+        "table:named-expressions"?: RawNamedExpressions | RawNamedExpressions[];
+      };
+    };
+  };
+};
+
+function toNamedExpressions(raw: RawNamedExpressions): NamedExpressions {
+  const namedRanges = ensureIsArray(raw["table:named-range"]).map((range) => ({
+    name: range["@_table:name"],
+    baseCellAddress: range["@_table:base-cell-address"],
+    cellRangeAddress: range["@_table:cell-range-address"],
+  }));
+
+  return { namedRanges };
+}
 
 export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
   const options = {
@@ -18,7 +63,7 @@ export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
   const fileContent = await readFile(fodsFilePath);
 
   const parser = new XMLParser(options);
-  const parsedFods = parser.parse(fileContent);
+  const parsedFods = parser.parse(fileContent) as RawFods;
 
   const spreadsheet =
     parsedFods["office:document"]["office:body"]["office:spreadsheet"];
@@ -28,9 +73,9 @@ export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
   const tables = ensureIsArray(rawTables).map((table) => {
     const name = table["@_table:name"].toString();
     const rows = ensureIsArray(table["table:table-row"]).map(
-      (row, rowIndex: number) => {
+      (row, rowIndex) => {
         const cells = ensureIsArray(row["table:table-cell"]).map(
-          (cell, columnIndex: number) => {
+          (cell, columnIndex) => {
             return {
               value: cell["@_office:value"]
                 ? cell["@_office:value"]
@@ -46,60 +91,28 @@ export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
           },
         );
 
-        return {
-          cells: cells,
-        } as Row;
+        return { cells };
       },
     );
 
     const namedExpressions = ensureIsArray(
       table["table:named-expressions"],
-    ).map((expressions) => {
-      const namedRanges = ensureIsArray(expressions["table:named-range"]).map(
-        (range) => {
-          const name = range["@_table:name"];
-          const baseCellAddress = range["@_table:base-cell-address"];
-          const cellRangeAddress = range["@_table:cell-range-address"];
+    ).map(toNamedExpressions);
 
-          return {
-            name,
-            baseCellAddress,
-            cellRangeAddress,
-          } as NamedRange;
-        },
-      );
-
-      return { namedRanges } as NamedExpressions;
-    });
-
-    return {
+    const result: Table = {
       name: name,
       rows: rows,
       namedExpressions: namedExpressions[0],
-    } as Table;
+    };
+    return result;
   });
 
-  const namedExpressions = ensureIsArray(rawNamedExpressions).map(
-    (expressions) => {
-      const namedRanges = ensureIsArray(expressions["table:named-range"]).map(
-        (range) => {
-          const name = range["@_table:name"];
-          const baseCellAddress = range["@_table:base-cell-address"];
-          const cellRangeAddress = range["@_table:cell-range-address"];
+  const namedExpressions =
+    ensureIsArray(rawNamedExpressions).map(toNamedExpressions);
 
-          return {
-            name,
-            baseCellAddress,
-            cellRangeAddress,
-          } as NamedRange;
-        },
-      );
-      return { namedRanges } as NamedExpressions;
-    },
-  );
-
-  return {
+  const result: Spreadsheet = {
     tables: tables,
     namedExpressions: namedExpressions[0],
-  } as Spreadsheet;
+  };
+  return result;
 }

@@ -49,15 +49,15 @@ export function parseXml(input: string): Spreadsheet {
     },
   };
   const parser = new XMLParser(options);
-  const parsed = parser.parse(input);
+  const parsed = parser.parse(input) as { spreadsheet: Spreadsheet };
 
   return parsed.spreadsheet;
 }
 
 export function parseJson(input: string): Spreadsheet {
-  return JSON.parse(input);
+  return JSON.parse(input) as Spreadsheet;
 }
 
 export function parseYaml(input: string): Spreadsheet {
-  return yamlParse(input);
+  return yamlParse(input) as Spreadsheet;
 }
