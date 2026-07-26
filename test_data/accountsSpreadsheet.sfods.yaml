@@ -3,19 +3,18 @@ tables:
     rows:
       - cells:
           - type: string
-            text: ""
             R: 1
             C: 1
           - type: string
-            text: 2020
+            text: "2020"
             R: 1
             C: 2
           - type: string
-            text: 2021
+            text: "2021"
             R: 1
             C: 3
           - type: string
-            text: 2022
+            text: "2022"
             R: 1
             C: 4
       - cells:
@@ -98,7 +97,6 @@ tables:
             R: 6
             C: 1
           - type: string
-            text: ""
             R: 6
             C: 2
           - formula: of:=(SUM2021 - SUM2020)

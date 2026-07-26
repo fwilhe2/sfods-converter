@@ -1,0 +1,26 @@
+<spreadsheet>
+  <table name="Sheet1">
+    <row>
+      <cell R="1" C="1" />
+      <cell R="1" C="2" />
+      <cell R="1" C="3" type="string"> <text><![CDATA[A]]></text> </cell>
+      <cell R="1" C="4" type="string"> <text><![CDATA[B]]></text> </cell>
+    </row>
+    <row>
+      <cell R="2" C="1" value="5" type="float"> <text><![CDATA[5]]></text> </cell>
+      <cell R="2" C="2" value="5" type="float"> <text><![CDATA[5]]></text> </cell>
+      <cell R="2" C="3" value="5" type="float"> <text><![CDATA[5]]></text> </cell>
+      <cell R="2" C="4" type="string"> <text><![CDATA[end]]></text> </cell>
+    </row>
+    <row>
+      <cell R="3" C="1" type="string"> <text><![CDATA[twice]]></text> </cell>
+    </row>
+    <row>
+      <cell R="4" C="1" type="string"> <text><![CDATA[twice]]></text> </cell>
+    </row>
+    <row>
+      <cell R="5" C="1" />
+    </row>
+  </table>
+</spreadsheet>
+

@@ -1,0 +1,51 @@
+tables:
+  - name: Sheet1
+    rows:
+      - cells:
+          - R: 1
+            C: 1
+          - R: 1
+            C: 2
+          - type: string
+            text: A
+            R: 1
+            C: 3
+          - type: string
+            text: B
+            R: 1
+            C: 4
+      - cells:
+          - value: "5"
+            type: float
+            text: "5"
+            R: 2
+            C: 1
+          - value: "5"
+            type: float
+            text: "5"
+            R: 2
+            C: 2
+          - value: "5"
+            type: float
+            text: "5"
+            R: 2
+            C: 3
+          - type: string
+            text: end
+            R: 2
+            C: 4
+      - cells:
+          - type: string
+            text: twice
+            R: 3
+            C: 1
+      - cells:
+          - type: string
+            text: twice
+            R: 4
+            C: 1
+      - cells:
+          - R: 5
+            C: 1
+namedExpressions:
+  namedRanges: []

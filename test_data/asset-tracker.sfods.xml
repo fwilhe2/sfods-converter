@@ -29,8 +29,6 @@
       <cell R="6" C="2" value="444" formula="of:=SUM(ASSET_CLASS1_YEAR1)" type="currency" currency="EUR"> <text><![CDATA[444.00 €]]></text> </cell>
       <cell R="6" C="3" value="1122" formula="of:=SUM(ASSET_CLASS1_YEAR2)" type="currency" currency="EUR"> <text><![CDATA[1,122.00 €]]></text> </cell>
     </row>
-    <named-expressions>
-    </named-expressions>
   </table>
   <table name="Year1">
     <row>
@@ -95,3 +93,4 @@
     <named-range name="ASSET_CLASS1_YEAR2" base-cell-address="$Overview.$C$3" cell-range-address="$Overview.$C$3:.$C$5" />
   </named-expressions>
 </spreadsheet>
+

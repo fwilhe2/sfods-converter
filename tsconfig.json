@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "allowUnreachableCode": false,
     "types": ["node"],
+    "declaration": true,
     "outDir": "./dist"
   }
 }

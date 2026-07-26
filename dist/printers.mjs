@@ -1,5 +1,10 @@
 import { stringify as yamlStringify } from "yaml";
-import { escapeXmlAttr } from "./utils.mjs";
+import {
+  ensureIsArray,
+  escapeCdata,
+  escapeHtml,
+  escapeXmlAttr,
+} from "./utils.mjs";
 function optional(value, elementName) {
   // Only skip genuinely absent values — a numeric 0 or a falsy value must still
   // be emitted, and attribute contents must be XML-escaped.
@@ -8,31 +13,45 @@ function optional(value, elementName) {
     : ` ${elementName}="${escapeXmlAttr(value)}"`;
 }
 function optionalText(text) {
-  return text ? "> <text><![CDATA[" + text + "]]></text> </cell>" : " />";
+  // Empty text and absent text are indistinguishable once reparsed, so both
+  // collapse to the short form rather than an empty CDATA section.
+  return text === undefined || text === null || text === ""
+    ? " />"
+    : "> <text><![CDATA[" + escapeCdata(text) + "]]></text> </cell>";
+}
+function namedExpressionsElement(spreadsheet, indent) {
+  const ranges = ensureIsArray(spreadsheet.namedExpressions?.namedRanges);
+  if (ranges.length === 0) {
+    // An empty element carries nothing and only creates a shape ("" once
+    // reparsed) that consumers have to defend against.
+    return "";
+  }
+  return (
+    `${indent}<named-expressions>\n` +
+    ranges
+      .map(
+        (n) =>
+          `${indent}  <named-range name="${escapeXmlAttr(n.name)}" base-cell-address="${escapeXmlAttr(n.baseCellAddress)}" cell-range-address="${escapeXmlAttr(n.cellRangeAddress)}" />\n`,
+      )
+      .join("") +
+    `${indent}</named-expressions>\n`
+  );
 }
 export function xmlPrinter(spreadsheet) {
   let result = "<spreadsheet>\n";
-  spreadsheet.tables.forEach((t) => {
+  ensureIsArray(spreadsheet.tables).forEach((t) => {
     result += `  <table name="${escapeXmlAttr(t.name)}">\n`;
-    t.rows.forEach((r) => {
+    ensureIsArray(t.rows).forEach((r) => {
       result += "    <row>\n";
-      r.cells.forEach((c) => {
+      ensureIsArray(r.cells).forEach((c) => {
         result += `      <cell${optional(c.R, "R")}${optional(c.C, "C")}${optional(c.value, "value")}${optional(c.formula, "formula")}${optional(c.type, "type")}${optional(c.currency, "currency")}${optionalText(c.text)}\n`;
       });
       result += "    </row>\n";
     });
-    result += "    <named-expressions>\n";
-    t.namedExpressions?.namedRanges.forEach((n) => {
-      result += `      <named-range name="${escapeXmlAttr(n.name)}" base-cell-address="${escapeXmlAttr(n.baseCellAddress)}" cell-range-address="${escapeXmlAttr(n.cellRangeAddress)}" />\n`;
-    });
-    result += "    </named-expressions>\n";
+    result += namedExpressionsElement(t, "    ");
     result += "  </table>\n";
   });
-  result += "  <named-expressions>\n";
-  spreadsheet.namedExpressions?.namedRanges.forEach((n) => {
-    result += `    <named-range name="${escapeXmlAttr(n.name)}" base-cell-address="${escapeXmlAttr(n.baseCellAddress)}" cell-range-address="${escapeXmlAttr(n.cellRangeAddress)}" />\n`;
-  });
-  result += "  </named-expressions>\n";
+  result += namedExpressionsElement(spreadsheet, "  ");
   result += "</spreadsheet>\n";
   return result;
 }
@@ -42,18 +61,30 @@ export function jsonPrinter(spreadsheet) {
 export function yamlPrinter(spreadsheet) {
   return yamlStringify(spreadsheet);
 }
+// Absence, not falsiness: a cell holding the number 0 has content and must not
+// render as an empty cell.
+function present(value) {
+  return value !== undefined && value !== null && value !== "";
+}
 function cellString(c) {
-  if (c.text) {
-    return c.text;
+  if (present(c.text)) {
+    return escapeHtml(c.text);
   }
-  if (c.formula) {
-    return c.formula;
+  if (present(c.value)) {
+    return escapeHtml(c.value);
   }
-  if (c.value) {
-    return c.value.toString();
+  if (present(c.formula)) {
+    return escapeHtml(c.formula);
   }
   return "&nbsp;";
 }
+const NUMERIC_TYPES = new Set([
+  "float",
+  "currency",
+  "percentage",
+  "date",
+  "time",
+]);
 export function htmlPrinter(spreadsheet) {
   let result = `<style>
   table,
@@ -92,34 +123,38 @@ export function htmlPrinter(spreadsheet) {
   }
 </style>
 `;
-  spreadsheet.tables.forEach((t) => {
+  ensureIsArray(spreadsheet.tables).forEach((t) => {
     result += `  <table>\n`;
-    result += `  <caption>${t.name}</caption>\n`;
-    t.rows.forEach((r) => {
+    result += `  <caption>${escapeHtml(t.name)}</caption>\n`;
+    ensureIsArray(t.rows).forEach((r) => {
       result += "    <tr>\n";
-      r.cells.forEach((c) => {
-        result += `      <td class="${c.type === "currency" || c.type === "float" ? "numeric" : "text"}">${cellString(c)}</td>\n`;
+      ensureIsArray(r.cells).forEach((c) => {
+        result += `      <td class="${c.type !== undefined && NUMERIC_TYPES.has(c.type) ? "numeric" : "text"}">${cellString(c)}</td>\n`;
       });
       result += "    </tr>\n";
     });
     result += "  </table>\n";
-    if (t.namedExpressions?.namedRanges) {
-      result += "    <p>Named Ranges</p>\n";
-      result += "    <ul>\n";
-      t.namedExpressions?.namedRanges.forEach((n) => {
-        result += `      <li>${n.name} ${n.cellRangeAddress}</li>\n`;
-      });
-      result += "    </ul>\n";
-    }
+    result += namedRangeList(t.namedExpressions?.namedRanges, "    ");
   });
-  if (spreadsheet.namedExpressions?.namedRanges) {
-    result += "  <p>Named Ranges</p>\n";
-    result += "  <ul>\n";
-    spreadsheet.namedExpressions?.namedRanges.forEach((n) => {
-      result += `    <li>${n.name} ${n.cellRangeAddress}</li>\n`;
-    });
-    result += "  </ul>\n";
-  }
+  result += namedRangeList(spreadsheet.namedExpressions?.namedRanges, "  ");
   result += "\n";
   return result;
+}
+function namedRangeList(ranges, indent) {
+  // The previous check tested the array itself for truthiness, so an empty
+  // collection still produced an empty "Named Ranges" heading.
+  const present = ensureIsArray(ranges);
+  if (present.length === 0) {
+    return "";
+  }
+  return (
+    `${indent}<p>Named Ranges</p>\n${indent}<ul>\n` +
+    present
+      .map(
+        (n) =>
+          `${indent}  <li>${escapeHtml(n.name)} ${escapeHtml(n.cellRangeAddress)}</li>\n`,
+      )
+      .join("") +
+    `${indent}</ul>\n`
+  );
 }

@@ -1,6 +1,13 @@
 import { XMLParser } from "fast-xml-parser";
 import { readFile } from "fs/promises";
-import { Cell, NamedExpressions, Spreadsheet, Table, Text } from "./model.mjs";
+import {
+  Cell,
+  CellType,
+  NamedExpressions,
+  Spreadsheet,
+  Table,
+  Text,
+} from "./model.mjs";
 import { ensureIsArray } from "./utils.mjs";
 
 // Shape of the FODS document as produced by fast-xml-parser (attributes are
@@ -8,14 +15,18 @@ import { ensureIsArray } from "./utils.mjs";
 type RawCell = {
   "@_office:value"?: string | number;
   "@_office:date-value"?: string;
-  "@_office:value-type"?: Cell["type"];
-  "@_office:currency"?: Cell["currency"];
+  "@_office:time-value"?: string;
+  "@_office:boolean-value"?: string | boolean;
+  "@_office:value-type"?: CellType;
+  "@_office:currency"?: string;
   "text:p"?: Text;
   "@_table:formula"?: string;
+  "@_table:number-columns-repeated"?: string | number;
 };
 
 type RawRow = {
   "table:table-cell"?: RawCell | RawCell[];
+  "@_table:number-rows-repeated"?: string | number;
 };
 
 type RawNamedRange = {
@@ -45,6 +56,109 @@ type RawFods = {
   };
 };
 
+// An upper bound on how far a single repeat run is expanded. Real content never
+// approaches this; the cap only exists so a malformed or hostile repeat count
+// cannot be turned into an unbounded allocation.
+const MAX_REPEAT = 4096;
+
+function repeatCount(raw: string | number | undefined): number {
+  const parsed = typeof raw === "number" ? raw : Number.parseInt(raw ?? "", 10);
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return 1;
+  }
+  return Math.min(parsed, MAX_REPEAT);
+}
+
+function isEmptyCell(cell: RawCell): boolean {
+  return (
+    cell["@_office:value"] === undefined &&
+    cell["@_office:date-value"] === undefined &&
+    cell["@_office:time-value"] === undefined &&
+    cell["@_office:boolean-value"] === undefined &&
+    cell["@_office:value-type"] === undefined &&
+    cell["@_table:formula"] === undefined &&
+    cell["text:p"] === undefined
+  );
+}
+
+function isEmptyRow(row: RawRow): boolean {
+  return ensureIsArray(row["table:table-cell"]).every(isEmptyCell);
+}
+
+// ODS collapses runs of identical adjacent cells (or rows) into a single
+// element carrying a repeat count. Expanding them is not optional: a repeat run
+// that appears *before* populated content shifts every following cell one or
+// more columns to the left if ignored.
+//
+// The one run that must not be expanded is the trailing padding LibreOffice
+// writes to fill the sheet out to its bounds (commonly 1024 columns and ~1M
+// rows of a single empty cell). It carries no data, so any empty run after the
+// last element that does carry data collapses to the single element it came
+// from.
+function expandRepeats<T>(
+  items: T[],
+  countOf: (item: T) => number,
+  isEmpty: (item: T) => boolean,
+): T[] {
+  let lastWithContent = -1;
+  items.forEach((item, index) => {
+    if (!isEmpty(item)) {
+      lastWithContent = index;
+    }
+  });
+
+  const expanded: T[] = [];
+  items.forEach((item, index) => {
+    const count = index > lastWithContent ? 1 : countOf(item);
+    for (let n = 0; n < count; n++) {
+      expanded.push(item);
+    }
+  });
+  return expanded;
+}
+
+// office:time-value is an ISO 8601 duration (PT01H02M03S). The sfods format
+// carries times as hh:mm:ss, so normalize here rather than leaking the
+// duration syntax into the simplified format.
+export function durationToTime(duration: string): string | undefined {
+  const match =
+    /^(-)?P(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$/.exec(
+      duration,
+    );
+  if (!match) {
+    return undefined;
+  }
+
+  const [, sign, days, hours, minutes, seconds] = match;
+  const totalHours = (Number(days ?? 0) || 0) * 24 + (Number(hours ?? 0) || 0);
+  const pad = (n: number) => String(Math.floor(n)).padStart(2, "0");
+  const secondsValue = Number(seconds ?? 0) || 0;
+  const fraction = secondsValue % 1;
+
+  return `${sign ?? ""}${pad(totalHours)}:${pad(Number(minutes ?? 0) || 0)}:${pad(
+    secondsValue,
+  )}${fraction ? String(fraction).slice(1) : ""}`;
+}
+
+function cellValue(cell: RawCell): Cell["value"] {
+  // Deliberately checking for absence rather than truthiness: office:value="0"
+  // is a real value and must not fall through to the next candidate.
+  if (cell["@_office:value"] !== undefined) {
+    return cell["@_office:value"];
+  }
+  if (cell["@_office:date-value"] !== undefined) {
+    return cell["@_office:date-value"];
+  }
+  if (cell["@_office:time-value"] !== undefined) {
+    const time = cell["@_office:time-value"];
+    return durationToTime(time) ?? time;
+  }
+  if (cell["@_office:boolean-value"] !== undefined) {
+    return cell["@_office:boolean-value"];
+  }
+  return undefined;
+}
+
 function toNamedExpressions(raw: RawNamedExpressions): NamedExpressions {
   const namedRanges = ensureIsArray(raw["table:named-range"]).map((range) => ({
     name: range["@_table:name"],
@@ -58,6 +172,10 @@ function toNamedExpressions(raw: RawNamedExpressions): NamedExpressions {
 export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
   const options = {
     ignoreAttributes: false,
+    // Keep every scalar as written. Without this, a cell whose text is "007"
+    // parses as the number 7 and one whose text is "true" parses as a boolean.
+    parseTagValue: false,
+    parseAttributeValue: false,
   };
 
   const fileContent = await readFile(fodsFilePath);
@@ -72,28 +190,36 @@ export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
 
   const tables = ensureIsArray(rawTables).map((table) => {
     const name = table["@_table:name"].toString();
-    const rows = ensureIsArray(table["table:table-row"]).map(
-      (row, rowIndex) => {
-        const cells = ensureIsArray(row["table:table-cell"]).map(
-          (cell, columnIndex) => {
-            return {
-              value: cell["@_office:value"]
-                ? cell["@_office:value"]
-                : cell["@_office:date-value"],
-              type: cell["@_office:value-type"],
-              currency: cell["@_office:currency"],
-              text: cell["text:p"],
-              formula: cell["@_table:formula"],
-              // R1C1 format is 1-indexed
-              R: rowIndex + 1,
-              C: columnIndex + 1,
-            } as Cell;
-          },
-        );
-
-        return { cells };
-      },
+    const rawRows = expandRepeats(
+      ensureIsArray(table["table:table-row"]),
+      (row) => repeatCount(row["@_table:number-rows-repeated"]),
+      isEmptyRow,
     );
+
+    const rows = rawRows.map((row, rowIndex) => {
+      const rawCells = expandRepeats(
+        ensureIsArray(row["table:table-cell"]),
+        (cell) => repeatCount(cell["@_table:number-columns-repeated"]),
+        isEmptyCell,
+      );
+
+      const cells = rawCells.map((cell, columnIndex): Cell => {
+        return {
+          value: cellValue(cell),
+          type: cell["@_office:value-type"],
+          currency: cell["@_office:currency"],
+          // Empty text carries nothing and cannot be told apart from absent
+          // text after a round-trip, so it is normalized away here.
+          text: cell["text:p"] === "" ? undefined : cell["text:p"],
+          formula: cell["@_table:formula"],
+          // R1C1 format is 1-indexed
+          R: rowIndex + 1,
+          C: columnIndex + 1,
+        };
+      });
+
+      return { cells };
+    });
 
     const namedExpressions = ensureIsArray(
       table["table:named-expressions"],
@@ -112,7 +238,7 @@ export async function parseFods(fodsFilePath: string): Promise<Spreadsheet> {
 
   const result: Spreadsheet = {
     tables: tables,
-    namedExpressions: namedExpressions[0],
+    namedExpressions: namedExpressions[0] ?? { namedRanges: [] },
   };
   return result;
 }

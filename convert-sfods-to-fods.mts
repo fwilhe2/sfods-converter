@@ -1,8 +1,67 @@
 import { Cell, NamedRange, Row, Spreadsheet } from "./model.mjs";
-import { ensureIsArray, escapeXmlAttr } from "./utils.mjs";
+import {
+  ensureIsArray,
+  escapeCdata,
+  escapeXmlAttr,
+  escapeXmlText,
+} from "./utils.mjs";
 
 function namedRangeElement(r: NamedRange): string {
   return `<table:named-range table:name="${escapeXmlAttr(r.name)}" table:base-cell-address="${escapeXmlAttr(r.baseCellAddress)}" table:cell-range-address="${escapeXmlAttr(r.cellRangeAddress)}"/>`;
+}
+
+// Symbols for the currencies worth spelling out; anything else falls back to
+// the ISO code itself, which LibreOffice renders as-is.
+const CURRENCY_SYMBOLS: Record<string, string> = {
+  EUR: "€",
+  USD: "$",
+  GBP: "£",
+  JPY: "¥",
+  CHF: "CHF",
+};
+
+function currencyStyleName(code: string): string {
+  return `CUR_${code.replace(/[^A-Za-z0-9]/g, "").toUpperCase()}`;
+}
+
+const NUMBER_ELEMENT =
+  '<number:number number:decimal-places="2" number:min-decimal-places="2" number:min-integer-digits="1" number:grouping="true" />';
+
+// One data style per currency actually used by the document. Previously every
+// currency cell was written out as EUR regardless of its code, which silently
+// relabelled the money in the sheet.
+function currencyStyleDefinition(code: string): string {
+  const name = currencyStyleName(code);
+  const symbol = escapeXmlText(CURRENCY_SYMBOLS[code.toUpperCase()] ?? code);
+
+  return `        <number:currency-style style:name="__${name}_POSITIVE" style:volatile="true">
+            ${NUMBER_ELEMENT}
+            <number:text> </number:text>
+            <number:currency-symbol>${symbol}</number:currency-symbol>
+        </number:currency-style>
+        <number:currency-style style:name="__${name}">
+            <style:text-properties fo:color="#ff0000" />
+            <number:text>-</number:text>
+            ${NUMBER_ELEMENT}
+            <number:text> </number:text>
+            <number:currency-symbol>${symbol}</number:currency-symbol>
+            <style:map style:condition="value()&gt;=0" style:apply-style-name="__${name}_POSITIVE" />
+        </number:currency-style>
+        <style:style style:name="${name}" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="__${name}" />`;
+}
+
+function collectCurrencies(spreadsheet: Spreadsheet): string[] {
+  const codes = new Set<string>();
+  ensureIsArray(spreadsheet.tables).forEach((t) =>
+    ensureIsArray(t.rows).forEach((r) =>
+      ensureIsArray(r.cells).forEach((c) => {
+        if (c.type === "currency" && c.currency) {
+          codes.add(c.currency);
+        }
+      }),
+    ),
+  );
+  return [...codes].sort();
 }
 
 export function produceFods(spreadsheet: Spreadsheet): string {
@@ -37,9 +96,23 @@ export function produceFods(spreadsheet: Spreadsheet): string {
     .map(namedRangeElement)
     .join("\n");
 
-  return FODS_TEMPLATE.replace("TABLES", tables).replace(
-    "NAMED_RANGES",
-    namedRanges || "",
+  const currencyStyles = collectCurrencies(spreadsheet)
+    .map(currencyStyleDefinition)
+    .join("\n");
+
+  const substitutions: Record<string, string> = {
+    CURRENCY_STYLES: currencyStyles,
+    TABLES: tables,
+    NAMED_RANGES: namedRanges,
+  };
+
+  // Substituted in a single pass with a replacer function. A plain
+  // String.replace would interpret "$&", "$$" and friends inside the *content*
+  // as replacement patterns, and replacing one placeholder at a time would let
+  // cell text that happens to read "NAMED_RANGES" be substituted in turn.
+  return FODS_TEMPLATE.replace(
+    /CURRENCY_STYLES|TABLES|NAMED_RANGES/g,
+    (placeholder) => substitutions[placeholder],
   );
 }
 
@@ -47,56 +120,111 @@ function mapCells(value: Cell): string {
   return `                    ${tableCellElement(value)}\n`;
 }
 
+// hh:mm:ss (the sfods spelling) -> the ISO 8601 duration ODF stores.
+export function timeToDuration(value: string): string | undefined {
+  const trimmed = String(value).trim();
+  if (/^-?P/.test(trimmed)) {
+    // Already a duration; pass it through rather than mangling it.
+    return trimmed;
+  }
+
+  const match = /^(-)?(\d+):([0-5]?\d):([0-5]?\d(?:\.\d+)?)$/.exec(trimmed);
+  if (!match) {
+    return undefined;
+  }
+
+  const [, sign, hours, minutes, seconds] = match;
+  return `${sign ?? ""}PT${hours}H${minutes}M${seconds}S`;
+}
+
+function textElement(text: string | undefined): string {
+  return text === undefined || text === null
+    ? ""
+    : ` <text:p><![CDATA[${escapeCdata(text)}]]></text:p> `;
+}
+
 function tableCellElement(cell: Cell): string {
+  const attrs: string[] = [];
+
   // A formula does not replace the cell's value/type — it is an extra attribute
   // carried alongside the cached result, so the value is preserved on reparse.
-  const formulaAttr = cell.formula
-    ? `table:formula="${escapeXmlAttr(cell.formula)}" `
-    : "";
-  const value = cell.value === undefined ? "" : escapeXmlAttr(cell.value);
-
-  if (cell.type === "float") {
-    return `<table:table-cell ${formulaAttr}office:value="${value}" table:style-name="FLOAT_STYLE" office:value-type="float" calcext:value-type="float" />`;
+  if (cell.formula !== undefined && cell.formula !== "") {
+    attrs.push(`table:formula="${escapeXmlAttr(cell.formula)}"`);
   }
 
-  if (cell.type === "date") {
-    return `<table:table-cell ${formulaAttr}office:date-value="${value}" table:style-name="DATE_STYLE" office:value-type="date" calcext:value-type="date" />`;
-  }
+  const rawValue = cell.value;
+  const hasValue =
+    rawValue !== undefined && rawValue !== null && rawValue !== "";
+  const value = hasValue ? escapeXmlAttr(rawValue) : "";
 
-  if (cell.type === "time" && cell.value) {
-    // assume hh:mm:ss format for now
-    const components = cell.value.toString().split(":");
-    if (components.length != 3) {
-      console.warn("expected hh:mm:ss format");
+  let type = cell.type;
+  let styleName: string | undefined;
+  let degradedToString = false;
+
+  if (hasValue) {
+    if (type === "float" || type === "percentage" || type === "currency") {
+      attrs.push(`office:value="${value}"`);
+      styleName =
+        type === "float"
+          ? "FLOAT_STYLE"
+          : type === "percentage"
+            ? "PERCENTAGE_STYLE"
+            : cell.currency
+              ? currencyStyleName(cell.currency)
+              : undefined;
+      if (type === "currency" && cell.currency) {
+        attrs.push(`office:currency="${escapeXmlAttr(cell.currency)}"`);
+      }
+    } else if (type === "date") {
+      attrs.push(`office:date-value="${value}"`);
+      styleName = "DATE_STYLE";
+    } else if (type === "time") {
+      const duration = timeToDuration(String(rawValue));
+      if (duration === undefined) {
+        // Not a time after all — keep the text rather than writing an invalid
+        // office:time-value that the spreadsheet application would reject.
+        console.warn(
+          `expected hh:mm:ss time value, got "${String(rawValue)}"; writing it as a string`,
+        );
+        type = "string";
+        degradedToString = true;
+      } else {
+        attrs.push(`office:time-value="${escapeXmlAttr(duration)}"`);
+        styleName = "TIME_STYLE";
+      }
+    } else if (type === "boolean") {
+      attrs.push(`office:boolean-value="${value}"`);
     }
-
-    return `<table:table-cell ${formulaAttr}office:time-value="PT${components[0]}H${components[1]}M${components[2]}S" table:style-name="TIME_STYLE" office:value-type="time" calcext:value-type="time" />`;
   }
 
-  if (cell.type === "currency") {
-    return `<table:table-cell ${formulaAttr}office:value="${value}" table:style-name="EUR_STYLE" office:value-type="currency" office:currency="EUR" calcext:value-type="currency" />`;
+  // Only a value-bearing cell gets a value-type. Emitting office:value-type
+  // with no corresponding value (the old `office:value=""`) produces a document
+  // that is not valid ODF, so a typed-but-empty cell degrades to an empty cell.
+  const carriesValue =
+    hasValue || type === "string" || cell.formula !== undefined;
+  if (type !== undefined && carriesValue) {
+    attrs.push(`office:value-type="${type}"`);
+    attrs.push(`calcext:value-type="${type}"`);
   }
 
-  if (cell.type === "percentage") {
-    return `<table:table-cell ${formulaAttr}office:value="${value}" table:style-name="PERCENTAGE_STYLE" office:value-type="percentage" calcext:value-type="percentage" />`;
+  if (styleName !== undefined) {
+    attrs.push(`table:style-name="${styleName}"`);
   }
 
-  // Fallback for string cells, empty cells, and formula cells with a string or
-  // unspecified result type. Emit only the parts that were actually present so
-  // the cell round-trips: in particular, do not invent an office:value-type for
-  // a typeless formula cell, and do not emit the literal text "undefined" for an
-  // empty cell.
-  const valueTypeAttr =
-    cell.type !== undefined
-      ? `office:value-type="${cell.type}" calcext:value-type="${cell.type}"`
-      : "";
-  const attrs = [formulaAttr.trim(), valueTypeAttr].filter((s) => s).join(" ");
+  // The displayed text is kept for typed cells too: it is the producer's
+  // rendering of the value (e.g. "345.00 €") and dropping it loses information
+  // on the way back out. A value that degraded to a string above has no other
+  // carrier, so it becomes the text.
+  const text = textElement(
+    degradedToString && cell.text === undefined ? String(rawValue) : cell.text,
+  );
+  const attrString = attrs.length > 0 ? ` ${attrs.join(" ")}` : "";
 
-  if (cell.text === undefined || cell.text === null) {
-    return attrs ? `<table:table-cell ${attrs} />` : `<table:table-cell />`;
+  if (text === "") {
+    return `<table:table-cell${attrString} />`;
   }
 
-  return `<table:table-cell ${attrs}> <text:p><![CDATA[${cell.text}]]></text:p> </table:table-cell>`;
+  return `<table:table-cell${attrString}>${text}</table:table-cell>`;
 }
 
 const FODS_TEMPLATE = `<?xml version="1.0" encoding="UTF-8"?>
@@ -128,25 +256,12 @@ const FODS_TEMPLATE = `<?xml version="1.0" encoding="UTF-8"?>
             <number:seconds number:style="long" />
         </number:time-style>
         <style:style style:name="TIME_STYLE" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="__TIME_STYLE" />
-        <number:currency-style style:name="___EUR_STYLE" style:volatile="true" number:language="en" number:country="DE">
-            <number:number number:decimal-places="2" number:min-decimal-places="2" number:min-integer-digits="1" number:grouping="true" />
-            <number:text />
-            <number:currency-symbol number:language="de" number:country="DE">€</number:currency-symbol>
-        </number:currency-style>
-        <number:currency-style style:name="__EUR_STYLE" number:language="en" number:country="DE">
-            <style:text-properties fo:color="#ff0000" />
-            <number:text>-</number:text>
-            <number:number number:decimal-places="2" number:min-decimal-places="2" number:min-integer-digits="1" number:grouping="true" />
-            <number:text />
-            <number:currency-symbol number:language="de" number:country="DE">€</number:currency-symbol>
-            <style:map style:condition="value()&gt;=0" style:apply-style-name="___EUR_STYLE" />
-        </number:currency-style>
-        <style:style style:name="EUR_STYLE" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="__EUR_STYLE" />
         <number:percentage-style style:name="__PERCENTAGE_STYLE">
             <number:number number:decimal-places="2" number:min-decimal-places="2" number:min-integer-digits="1" />
             <number:text>%</number:text>
         </number:percentage-style>
         <style:style style:name="PERCENTAGE_STYLE" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="__PERCENTAGE_STYLE" />
+CURRENCY_STYLES
     </office:automatic-styles>
     <office:body>
         <office:spreadsheet>
